@@ -143,8 +143,15 @@
     mix-blend-mode: difference;
     color: #fff;
   }
-  .nav-left { display: flex; align-items: center; gap: 22px; font-family: var(--font-display); font-size: 22px; letter-spacing: 3px; }
-  .nav-sep { width: 1px; height: 18px; background: rgba(255,255,255,0.6); }
+  .nav-left { display: flex; align-items: center; gap: 18px; font-family: var(--font-display); font-size: 22px; letter-spacing: 3px; }
+  .nav-logo {
+    height: 44px; width: auto;
+    filter: brightness(0) invert(1);
+    transition: transform 0.4s var(--ease);
+  }
+  .nav-logo:hover { transform: scale(1.04); }
+  .nav-sep { width: 1px; height: 28px; background: rgba(255,255,255,0.5); }
+  .nav-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.85; }
   .nav-right { display: flex; align-items: center; gap: 24px; }
   .btn-shop {
     border: 1px solid #fff;
@@ -211,28 +218,59 @@
 
   .products-row {
     display: flex; align-items: center; justify-content: center;
-    gap: 40px;
+    gap: 60px;
     width: 100%;
-    perspective: 1000px;
+    perspective: 1400px;
   }
 
   .product-card {
-    width: 280px; height: 420px;
+    width: 380px; height: 540px;
     position: relative;
     display: flex; align-items: center; justify-content: center;
-    transition: all 0.6s var(--ease);
-    will-change: transform;
+    will-change: transform, opacity, filter;
+    transform-style: preserve-3d;
   }
-  .product-card.side { transform: scale(0.88); opacity: 0.7; filter: brightness(0.6); }
-  .product-card.side.left  { transform: scale(0.88) translateX(30px); }
-  .product-card.side.right { transform: scale(0.88) translateX(-30px); }
-  .product-card.center { transform: scale(1.05); z-index: 5; }
-  .product-card:hover { transform: scale(1.08) translateY(-10px); opacity: 1; filter: brightness(1); z-index: 6; }
+
+  /* Default RESTING state — applied AFTER intro animation finishes */
+  .product-card.rest.side  { transform: scale(0.88); opacity: 0.7; filter: brightness(0.6); transition: all 0.6s var(--ease); }
+  .product-card.rest.side.left  { transform: scale(0.88) translateX(40px); }
+  .product-card.rest.side.right { transform: scale(0.88) translateX(-40px); }
+  .product-card.rest.center { transform: scale(1.05); z-index: 5; transition: all 0.6s var(--ease); }
+  .product-card.rest:hover { transform: scale(1.1) translateY(-12px); opacity: 1; filter: brightness(1); z-index: 6; }
+
+  /* INTRO: products fly in from above the viewport, spinning */
+  .product-card.intro { opacity: 0; }
+  .product-card.intro.left   { animation: flyInLeft   1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards; }
+  .product-card.intro.center { animation: flyInCenter 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards; }
+  .product-card.intro.right  { animation: flyInRight  1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.0s forwards; }
+
+  @keyframes flyInLeft {
+    0%   { opacity: 0; transform: translate(-180vw, -40vh) rotate(-540deg) scale(0.4); filter: blur(8px) brightness(0.6); }
+    60%  { opacity: 1; filter: blur(0) brightness(0.6); }
+    85%  { transform: translate(0, 0) rotate(15deg) scale(0.95); }
+    100% { opacity: 0.7; transform: translateX(40px) rotate(0) scale(0.88); filter: blur(0) brightness(0.6); }
+  }
+  @keyframes flyInCenter {
+    0%   { opacity: 0; transform: translateY(-50vh) rotate(-720deg) scale(0.3); filter: blur(8px); }
+    50%  { opacity: 1; filter: blur(0); }
+    85%  { transform: translateY(0) rotate(-20deg) scale(1.12); }
+    100% { opacity: 1; transform: rotate(0) scale(1.05); filter: blur(0); }
+  }
+  @keyframes flyInRight {
+    0%   { opacity: 0; transform: translate(180vw, -40vh) rotate(540deg) scale(0.4); filter: blur(8px) brightness(0.6); }
+    60%  { opacity: 1; filter: blur(0) brightness(0.6); }
+    85%  { transform: translate(0, 0) rotate(-15deg) scale(0.95); }
+    100% { opacity: 0.7; transform: translateX(-40px) rotate(0) scale(0.88); filter: blur(0) brightness(0.6); }
+  }
+
   .product-card .label {
     position: absolute; bottom: -34px; left: 50%; transform: translateX(-50%);
-    font-family: var(--font-mono); font-size: 9px; letter-spacing: 3px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 3px;
     color: var(--gray); text-transform: uppercase; white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.6s var(--ease);
   }
+  .product-card.rest .label { opacity: 1; }
 
   .jacket-svg {
     width: 100%; height: 100%;
@@ -603,9 +641,10 @@
     .lang-toggle { font-size: 9px; }
 
     .hero { padding: 110px 16px 80px; }
-    .products-row { gap: 8px; }
-    .product-card { width: 110px; height: 220px; }
+    .products-row { gap: 12px; }
+    .product-card { width: 130px; height: 220px; }
     .product-card .label { font-size: 7px; bottom: -22px; }
+    .nav-logo { height: 32px; }
     .hero-title { font-size: 36px; letter-spacing: 4px; }
     .hero-title-wrap { padding: 8px 20px 4px; }
     .hero-sub { font-size: 9px; letter-spacing: 2px; }
@@ -659,9 +698,9 @@
 <!-- NAV -->
 <nav class="main-nav">
   <div class="nav-left">
-    <span>ALL-IN</span>
+    <img class="nav-logo" src="assets/logo.svg" alt="ALL-IN-CONSTRUCTIONS" />
     <span class="nav-sep"></span>
-    <span>CONSTRUCTIONS</span>
+    <span class="nav-tag">S.A.S · Ecuador</span>
   </div>
   <div class="nav-right">
     <button class="btn-shop" onclick="document.getElementById('section-a').scrollIntoView({behavior:'smooth'})">Shop the Collection</button>
@@ -673,21 +712,21 @@
 <section class="hero" id="hero">
   <div class="hero-beam"></div>
   <div class="hero-content">
-    <div class="products-row">
+    <div class="products-row" id="productsRow">
       <!-- Side left: casco -->
-      <div class="product-card side left" data-target="#section-a">
+      <div class="product-card intro side left" data-target="#section-a">
         <img class="product-img" src="assets/casco.png" alt="Casco ALL-IN-CONSTRUCTIONS" />
         <span class="label">Seguridad · Casco</span>
       </div>
 
       <!-- Center: chaleco -->
-      <div class="product-card center" data-target="#section-b">
+      <div class="product-card intro center" data-target="#section-b">
         <img class="product-img" src="assets/chaleco.png" alt="Chaleco ALL-IN-CONSTRUCTIONS" />
         <span class="label">Uniforme · Chaleco</span>
       </div>
 
       <!-- Side right: planos -->
-      <div class="product-card side right" data-target="#section-c">
+      <div class="product-card intro side right" data-target="#section-c">
         <img class="product-img" src="assets/planos.png" alt="Planos arquitectónicos" />
         <span class="label">Diseño · Planos</span>
       </div>
@@ -809,8 +848,28 @@
   window.addEventListener('load', () => {
     setTimeout(() => {
       document.getElementById('loader').classList.add('hidden');
+      // Kick off product intro animation once loader has faded
+      setTimeout(triggerProductIntro, 200);
     }, 1800);
   });
+
+  /* === PRODUCT INTRO -> REST === */
+  function triggerProductIntro() {
+    // Each card finishes at its delay + 1.6s duration.
+    // Last (right) ends at 1.0s + 1.6s = 2.6s.
+    const cards = document.querySelectorAll('.product-card');
+    // Switch each card to rest at its own moment to avoid flicker
+    const offsets = { left: 400 + 1600, center: 700 + 1600, right: 1000 + 1600 };
+    cards.forEach(card => {
+      let key = 'center';
+      if (card.classList.contains('left')) key = 'left';
+      else if (card.classList.contains('right')) key = 'right';
+      setTimeout(() => {
+        card.classList.remove('intro');
+        card.classList.add('rest');
+      }, offsets[key]);
+    });
+  }
 
   /* === CURSOR GLOW === */
   const cursorGlow = document.getElementById('cursorGlow');
