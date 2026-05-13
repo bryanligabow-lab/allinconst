@@ -306,15 +306,20 @@
   .product-card.pos-right:hover { transform: translateX(440px)  translateZ(-80px) rotateY(-22deg) scale(0.93); opacity: 0.92; filter: brightness(0.75); }
   .product-card.pos-center:hover { transform: translateX(0) translateZ(20px) rotateY(0) scale(1.1) translateY(-10px); }
 
-  /* CINEMATIC INTRO: stacked at center → flash → separate to 3D positions */
-  .product-card.intro { opacity: 0 !important; }
+  /* CINEMATIC INTRO: stacked at center → flash → separate to 3D positions
+     NOTE: animation-fill-mode: both — applies the 0% keyframe DURING the delay
+     so the cards stay invisible & stacked until the animation kicks in. */
+  .product-card.intro {
+    /* disable the carousel's transition during the cinematic intro */
+    transition: none !important;
+  }
   .product-card.intro.pos-left,
   .product-card.intro.pos-center,
   .product-card.intro.pos-right {
     animation-duration: 2.4s;
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
     animation-delay: 0.8s;
-    animation-fill-mode: forwards;
+    animation-fill-mode: both;
   }
   .product-card.intro.pos-left   { animation-name: cineLeft;   }
   .product-card.intro.pos-center { animation-name: cineCenter; }
@@ -350,7 +355,7 @@
     100% { opacity: 0.7; transform: translateX(440px) translateZ(-120px) rotateY(-28deg) scale(0.88); filter: blur(0) brightness(0.55); }
   }
 
-  /* HERO FLASH — fires at ~1.4s (when products separate) */
+  /* HERO FLASH — multi-layered explosion at 1.4s */
   .hero-flash {
     position: absolute; inset: 0;
     pointer-events: none;
@@ -358,39 +363,114 @@
     z-index: 3;
     background:
       radial-gradient(circle at center,
-        rgba(255,255,255,0.85) 0%,
-        rgba(140,180,255,0.7) 10%,
-        rgba(47,87,245,0.5) 25%,
-        transparent 55%);
-    filter: blur(20px);
+        rgba(255,255,255,0.95) 0%,
+        rgba(180,210,255,0.85) 8%,
+        rgba(80,140,255,0.6) 20%,
+        rgba(47,87,245,0.35) 40%,
+        transparent 60%);
+    filter: blur(8px);
     mix-blend-mode: screen;
-    animation: heroFlashAnim 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1.4s forwards;
+    animation: heroFlashAnim 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1.4s both;
+    will-change: transform, opacity;
   }
   @keyframes heroFlashAnim {
-    0%   { opacity: 0; transform: scale(0.4); }
-    25%  { opacity: 1; transform: scale(1.1); }
-    60%  { opacity: 0.6; transform: scale(1.6); }
-    100% { opacity: 0; transform: scale(2.4); }
+    0%   { opacity: 0; transform: scale(0.3); }
+    15%  { opacity: 1; transform: scale(1.05); }
+    35%  { opacity: 0.95; transform: scale(1.5); }
+    70%  { opacity: 0.35; transform: scale(2.2); }
+    100% { opacity: 0; transform: scale(3); }
+  }
+  /* Light streaks crossing horizontally during the flash */
+  .hero-flash::before, .hero-flash::after {
+    content: '';
+    position: absolute;
+    left: -10%; right: -10%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), rgba(140,180,255,1), rgba(255,255,255,0.95), transparent);
+    box-shadow: 0 0 14px rgba(140,180,255,0.9), 0 0 30px rgba(47,87,245,0.6);
+    opacity: 0;
+    animation: streakSweep 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1.4s both;
+  }
+  .hero-flash::before { top: 42%; transform: scaleX(0); transform-origin: left; }
+  .hero-flash::after  { top: 58%; transform: scaleX(0); transform-origin: right; animation-delay: 1.45s; }
+  @keyframes streakSweep {
+    0%   { opacity: 0; transform: scaleX(0); }
+    25%  { opacity: 1; transform: scaleX(1); }
+    100% { opacity: 0; transform: scaleX(1); }
   }
 
-  /* HERO TEXT CASCADE — appears after products settle (2.8-3.8s) */
-  .hero-title-wrap,
+  /* Camera shake during the flash */
+  .hero-content {
+    animation: heroShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) 1.4s both;
+  }
+  @keyframes heroShake {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-3px, 2px); }
+    20% { transform: translate(4px, -2px); }
+    30% { transform: translate(-3px, -3px); }
+    40% { transform: translate(3px, 3px); }
+    50% { transform: translate(-2px, 1px); }
+    60% { transform: translate(2px, -1px); }
+    70% { transform: translate(-1px, 0); }
+    80% { transform: translate(1px, 1px); }
+  }
+
+  /* Beam intensifies right at flash moment, then returns to invisible static */
+  .hero-beam {
+    animation: beamPulseIntro 1.1s cubic-bezier(0.16, 1, 0.3, 1) 1.3s;
+    /* no fill-mode → static CSS (opacity:0) applies before & after */
+  }
+  @keyframes beamPulseIntro {
+    0%   { opacity: 0; width: 60px; }
+    25%  { opacity: 1; width: 240px; }
+    70%  { opacity: 0.6; width: 160px; }
+    100% { opacity: 0; width: 80px; }
+  }
+
+  /* HERO TEXT CASCADE — mask-wipe reveal */
+  .hero-title-wrap {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    animation: titleWipe 1s cubic-bezier(0.16, 1, 0.3, 1) 2.8s forwards;
+  }
+  @keyframes titleWipe {
+    0%   { opacity: 0; clip-path: inset(0 100% 0 0); }
+    30%  { opacity: 1; }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+  }
+
   .hero-sub,
   .hero-cats,
   .hero-cta {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(28px);
+    filter: blur(8px);
     animation: heroFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-  .hero-title-wrap { animation-delay: 2.8s; }
-  .hero-sub        { animation-delay: 3.0s; }
-  .hero-cats       { animation-delay: 3.2s; }
-  .hero-cta        { animation-delay: 3.4s; }
+  .hero-sub  { animation-delay: 3.05s; }
+  .hero-cats { animation-delay: 3.25s; }
+  .hero-cta  { animation-delay: 3.45s; }
   @keyframes heroFadeUp {
-    to { opacity: 1; transform: translateY(0); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
   }
-  /* Scroll indicator delayed entrance (preserves its floatY infinite anim) */
-  .scroll-indicator { opacity: 0; transition: opacity 0.6s ease-out; }
+
+  /* Stagger the individual category chips inside */
+  .hero-cats span {
+    opacity: 0; transform: translateY(14px);
+    animation: chipPop 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .hero-cats span:nth-child(1) { animation-delay: 3.30s; }
+  .hero-cats span:nth-child(2) { animation-delay: 3.40s; }
+  .hero-cats span:nth-child(3) { animation-delay: 3.50s; }
+  .hero-cats span:nth-child(4) { animation-delay: 3.60s; }
+  .hero-cats span:nth-child(5) { animation-delay: 3.70s; }
+  @keyframes chipPop {
+    0%   { opacity: 0; transform: translateY(14px) scale(0.85); }
+    60%  { transform: translateY(0) scale(1.08); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .scroll-indicator { opacity: 0; transition: opacity 0.7s ease-out; }
   .scroll-indicator.show { opacity: 1; }
 
   .product-card .label {
