@@ -721,6 +721,457 @@
     color: #777;
   }
 
+  /* === HERO EXTRA: categorías + CTA === */
+  .hero-cats {
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    margin-top: 4px;
+  }
+  .hero-cats span {
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 2.5px;
+    text-transform: uppercase; color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 6px 12px; border-radius: 999px;
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(4px);
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-top: 14px;
+    padding: 14px 32px;
+    background: var(--red-bright);
+    color: #fff;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 3px; text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 30px rgba(47,87,245,0.5), 0 0 60px rgba(47,87,245,0.25);
+    transition: all 0.4s var(--ease);
+  }
+  .hero-cta:hover {
+    background: #fff; color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px rgba(255,255,255,0.4);
+  }
+  .hero-cta::after { content: '→'; font-size: 14px; }
+
+  /* === COMPANY SECTIONS (about/mission/values/process/contact) === */
+  .company-section {
+    position: relative;
+    padding: 140px 40px;
+    overflow: hidden;
+  }
+  .company-section .inner { max-width: 1200px; margin: 0 auto; }
+  .section-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  .section-eyebrow {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 4px;
+    color: var(--red-bright); text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .section-eyebrow::before, .section-eyebrow::after {
+    content: ''; width: 28px; height: 1px; background: var(--red-bright); opacity: 0.6;
+  }
+  .section-title {
+    font-family: var(--font-display); font-size: 56px;
+    letter-spacing: 4px; line-height: 1; text-transform: uppercase;
+    color: var(--white);
+  }
+  .section-title em { font-style: normal; color: var(--red-bright); }
+  .section-lead {
+    font-family: var(--font-body); font-size: 15px; line-height: 1.85;
+    color: var(--gray); max-width: 720px; margin: 24px auto 0;
+  }
+
+  /* About */
+  #about {
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(31,58,214,0.08), transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(31,58,214,0.05), transparent 60%),
+      var(--black);
+  }
+  .about-grid {
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 80px;
+    align-items: center;
+  }
+  .about-text p {
+    font-family: var(--font-body); font-size: 14.5px; line-height: 1.9;
+    color: var(--gray); margin-bottom: 18px;
+  }
+  .about-text p strong { color: var(--white); font-weight: 500; }
+  .stats-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .stat-card {
+    background: #0a0a14;
+    padding: 36px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s var(--ease);
+  }
+  .stat-card:hover { background: #0f1124; }
+  .stat-card::after {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--red-bright);
+    transform: scaleY(0); transform-origin: top;
+    transition: transform 0.5s var(--ease);
+  }
+  .stat-card:hover::after { transform: scaleY(1); }
+  .stat-value {
+    font-family: var(--font-display); font-size: 56px;
+    letter-spacing: 2px; color: var(--white); line-height: 1;
+  }
+  .stat-value em { color: var(--red-bright); font-style: normal; }
+  .stat-label {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+    color: var(--gray); text-transform: uppercase; margin-top: 12px;
+  }
+
+  /* Mission & Vision */
+  #mision-vision {
+    background:
+      linear-gradient(180deg, #050505 0%, #07091a 50%, #050505 100%);
+  }
+  .mv-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  }
+  .mv-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    background:
+      linear-gradient(135deg, rgba(47,87,245,0.05) 0%, transparent 50%),
+      rgba(255,255,255,0.02);
+    padding: 50px 44px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s var(--ease);
+  }
+  .mv-card:hover {
+    border-color: rgba(47,87,245,0.4);
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px -20px rgba(47,87,245,0.25);
+  }
+  .mv-card::before {
+    content: attr(data-num);
+    position: absolute; top: 20px; right: 30px;
+    font-family: var(--font-display); font-size: 120px;
+    color: rgba(255,255,255,0.04); line-height: 0.7;
+    pointer-events: none;
+  }
+  .mv-tag {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 3px;
+    color: var(--red-bright); text-transform: uppercase;
+  }
+  .mv-card h3 {
+    font-family: var(--font-display); font-size: 42px; letter-spacing: 3px;
+    color: var(--white); margin: 12px 0 24px;
+  }
+  .mv-card p {
+    font-family: var(--font-body); font-size: 14px; line-height: 1.85;
+    color: var(--gray);
+  }
+
+  /* Values */
+  #valores { background: var(--black); }
+  .values-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .value-card {
+    background: #06060f;
+    padding: 40px 32px;
+    position: relative;
+    transition: all 0.5s var(--ease);
+  }
+  .value-card:hover { background: #0d0f24; transform: translateY(-4px); }
+  .value-num {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 3px;
+    color: var(--red-bright);
+  }
+  .value-card h4 {
+    font-family: var(--font-display); font-size: 26px; letter-spacing: 2px;
+    color: var(--white); margin: 16px 0 12px;
+  }
+  .value-card p {
+    font-family: var(--font-body); font-size: 13px; line-height: 1.7;
+    color: var(--gray);
+  }
+
+  /* Services full grid */
+  #servicios {
+    background:
+      radial-gradient(ellipse at top, rgba(31,58,214,0.06), transparent 60%),
+      var(--black);
+  }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+  }
+  .service-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02);
+    padding: 44px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s var(--ease);
+  }
+  .service-card:hover {
+    border-color: var(--red-bright);
+    transform: translateY(-6px);
+    background: rgba(47,87,245,0.04);
+  }
+  .service-card::before {
+    content: attr(data-num);
+    position: absolute; bottom: -30px; right: -10px;
+    font-family: var(--font-display); font-size: 200px;
+    color: rgba(255,255,255,0.03); line-height: 0.7;
+    pointer-events: none;
+  }
+  .service-card .stag {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 3px;
+    color: var(--red-bright); text-transform: uppercase;
+  }
+  .service-card h3 {
+    font-family: var(--font-display); font-size: 30px; letter-spacing: 2px;
+    color: var(--white); margin: 14px 0 18px;
+  }
+  .service-card p {
+    font-family: var(--font-body); font-size: 13.5px; line-height: 1.8;
+    color: var(--gray); margin-bottom: 20px;
+  }
+  .service-card ul {
+    list-style: none;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 20px;
+  }
+  .service-card li {
+    font-family: var(--font-mono); font-size: 11px;
+    color: rgba(255,255,255,0.55); padding: 6px 0;
+    display: flex; gap: 12px;
+  }
+  .service-card li::before {
+    content: '▸'; color: var(--red-bright);
+  }
+
+  /* Why choose us */
+  #porque { background: #050507; }
+  .reasons-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .reason-card {
+    padding: 36px 28px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.015);
+    transition: all 0.4s var(--ease);
+  }
+  .reason-card:hover { border-color: var(--red-bright); background: rgba(47,87,245,0.04); }
+  .reason-num {
+    font-family: var(--font-display); font-size: 46px; letter-spacing: 2px;
+    color: var(--red-bright); line-height: 1;
+  }
+  .reason-card h4 {
+    font-family: var(--font-display); font-size: 22px; letter-spacing: 2px;
+    color: var(--white); margin: 14px 0 8px;
+  }
+  .reason-card p {
+    font-family: var(--font-body); font-size: 13px; line-height: 1.75;
+    color: var(--gray);
+  }
+
+  /* Process */
+  #proceso {
+    background:
+      linear-gradient(180deg, #050505 0%, #050810 100%);
+  }
+  .timeline {
+    position: relative;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
+    padding: 0 12px;
+  }
+  .timeline::before {
+    content: ''; position: absolute;
+    top: 40px; left: 5%; right: 5%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--red-bright), transparent);
+    opacity: 0.4;
+  }
+  .step {
+    text-align: center;
+    padding: 0 12px;
+    position: relative;
+  }
+  .step-dot {
+    width: 80px; height: 80px; margin: 0 auto;
+    border-radius: 50%;
+    background: var(--black);
+    border: 2px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 32px;
+    color: var(--white); letter-spacing: 1px;
+    position: relative; z-index: 2;
+    transition: all 0.5s var(--ease);
+  }
+  .step:hover .step-dot {
+    border-color: var(--red-bright);
+    box-shadow: 0 0 30px rgba(47,87,245,0.5);
+    background: rgba(47,87,245,0.1);
+  }
+  .step h5 {
+    font-family: var(--font-display); font-size: 18px; letter-spacing: 2px;
+    color: var(--white); margin: 20px 0 8px;
+  }
+  .step p {
+    font-family: var(--font-body); font-size: 12.5px; line-height: 1.7;
+    color: var(--gray);
+  }
+
+  /* Contact */
+  #contacto {
+    background: var(--beige);
+    color: var(--dark-fg);
+  }
+  #contacto .section-title { color: var(--dark-fg); }
+  #contacto .section-title em { color: var(--red); }
+  #contacto .section-eyebrow { color: var(--red); }
+  #contacto .section-eyebrow::before, #contacto .section-eyebrow::after { background: var(--red); }
+  #contacto .section-lead { color: #555; }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+    align-items: start;
+  }
+  .contact-info { padding: 20px 0; }
+  .contact-info .item {
+    display: flex; gap: 18px; padding: 22px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .contact-info .item:last-child { border-bottom: none; }
+  .contact-icon {
+    width: 44px; height: 44px;
+    background: var(--dark-fg); color: var(--beige);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 18px;
+    flex-shrink: 0;
+  }
+  .contact-item-label {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: #888;
+  }
+  .contact-item-value {
+    font-family: var(--font-body); font-size: 15px; color: var(--dark-fg);
+    margin-top: 4px;
+  }
+  .contact-form { padding: 0; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .contact-form label {
+    display: block;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+    color: #888; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .contact-form input, .contact-form select, .contact-form textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: transparent;
+    border: 1px solid rgba(0,0,0,0.15);
+    font-family: var(--font-body); font-size: 14px;
+    color: var(--dark-fg);
+    outline: none;
+    transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+  }
+  .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus {
+    border-color: var(--red);
+    background: rgba(255,255,255,0.5);
+  }
+  .contact-form textarea { resize: vertical; min-height: 110px; font-family: var(--font-body); }
+  .contact-form .full { grid-column: 1 / -1; }
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--dark-fg);
+    color: var(--beige);
+    border: none;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 3px; text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s var(--ease);
+    margin-top: 8px;
+  }
+  .submit-btn:hover { background: var(--red); color: #fff; }
+
+  /* New footer */
+  footer.site-footer {
+    background: #050505;
+    color: rgba(255,255,255,0.5);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 60px 40px 30px;
+  }
+  .footer-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-brand img { height: 50px; margin-bottom: 16px; filter: brightness(0) invert(1); }
+  .footer-brand p {
+    font-family: var(--font-body); font-size: 12.5px; line-height: 1.7;
+    color: rgba(255,255,255,0.45); margin-bottom: 16px;
+  }
+  .footer-col h6 {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--white); margin-bottom: 18px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { padding: 4px 0; }
+  .footer-col a {
+    font-family: var(--font-body); font-size: 13px;
+    color: rgba(255,255,255,0.5); text-decoration: none;
+    transition: color 0.3s var(--ease);
+  }
+  .footer-col a:hover { color: var(--red-bright); }
+  .footer-bottom {
+    max-width: 1200px; margin: 30px auto 0;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px;
+    text-transform: uppercase; color: rgba(255,255,255,0.35);
+  }
+  .footer-bottom .social { display: flex; gap: 14px; }
+  .footer-bottom .social a {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.6);
+    font-size: 11px; text-decoration: none;
+    transition: all 0.3s var(--ease);
+  }
+  .footer-bottom .social a:hover { border-color: var(--red-bright); color: var(--red-bright); }
+
+  /* WhatsApp floating */
+  .whatsapp-float {
+    position: fixed; bottom: 30px; right: 30px;
+    width: 56px; height: 56px;
+    background: #25d366;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; text-decoration: none;
+    box-shadow: 0 8px 30px rgba(37,211,102,0.4);
+    z-index: 5000;
+    transition: transform 0.3s var(--ease);
+    cursor: crosshair;
+    font-size: 26px;
+  }
+  .whatsapp-float:hover { transform: scale(1.1); }
+  .whatsapp-float::before {
+    content: ''; position: absolute; inset: -4px;
+    border-radius: 50%; border: 2px solid rgba(37,211,102,0.4);
+    animation: waPulse 2s ease-in-out infinite;
+  }
+  @keyframes waPulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.2); opacity: 0; }
+  }
+
   /* === RESPONSIVE === */
   @media (max-width: 768px) {
     nav.main-nav { padding: 18px 20px; }
@@ -760,6 +1211,20 @@
     .name-input { font-size: 32px; width: 240px; letter-spacing: 4px; }
 
     footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 20px; }
+
+    .company-section { padding: 90px 20px; }
+    .section-title { font-size: 36px; letter-spacing: 2px; }
+    .about-grid { grid-template-columns: 1fr; gap: 50px; }
+    .mv-grid, .values-grid, .services-grid, .reasons-grid { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr; gap: 30px; }
+    .timeline::before { display: none; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+    .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+    .hero-cats { gap: 6px; }
+    .hero-cats span { font-size: 8px; padding: 5px 10px; letter-spacing: 1.5px; }
+    .whatsapp-float { bottom: 18px; right: 18px; }
   }
 </style>
 </head>
@@ -795,8 +1260,8 @@
     <span class="nav-tag">S.A.S · Ecuador</span>
   </div>
   <div class="nav-right">
-    <button class="btn-shop" onclick="document.getElementById('section-a').scrollIntoView({behavior:'smooth'})">Shop the Collection</button>
-    <div class="lang-toggle"><span class="active">EN</span> | <span>ES</span></div>
+    <a class="btn-shop" href="#servicios" style="text-decoration:none;display:inline-flex;align-items:center;">Servicios</a>
+    <a class="btn-shop" href="#contacto" style="text-decoration:none;display:inline-flex;align-items:center;background:rgba(47,87,245,0.15);border-color:rgba(47,87,245,0.5);">Cotizar</a>
   </div>
 </nav>
 
@@ -811,10 +1276,10 @@
         <span class="label">Seguridad · Casco</span>
       </div>
 
-      <!-- Card 2: chaleco — starts at the CENTER -->
-      <div class="product-card intro pos-center" data-target="#section-b" data-product="chaleco">
-        <img class="product-img" src="assets/chaleco.png" alt="Chaleco ALL-IN-CONSTRUCTIONS" />
-        <span class="label">Uniforme · Chaleco</span>
+      <!-- Card 2: retroexcavadora — starts at the CENTER -->
+      <div class="product-card intro pos-center" data-target="#section-b" data-product="retro">
+        <img class="product-img" src="assets/retroexcavadora.png" alt="Retroexcavadora ALL-IN-CONSTRUCTIONS" />
+        <span class="label">Maquinaria · Retroexcavadora</span>
       </div>
 
       <!-- Card 3: planos — starts on the RIGHT -->
@@ -826,7 +1291,15 @@
 
     <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:18px;">
       <div class="hero-title-wrap"><div class="hero-title">ALL-IN CONSTRUCTIONS</div></div>
-      <div class="hero-sub">Selecciona un producto para comenzar</div>
+      <div class="hero-sub">Construimos soluciones, edificamos confianza</div>
+      <div class="hero-cats">
+        <span>Diseño</span>
+        <span>Construcción</span>
+        <span>Interventoría</span>
+        <span>Remodelaciones</span>
+        <span>Consultoría</span>
+      </div>
+      <a href="#contacto" class="hero-cta">Cotizar Proyecto</a>
     </div>
   </div>
   <div class="scroll-indicator">
@@ -868,20 +1341,20 @@
   <div class="glitch-text" data-text="CONSTRUCTIONS">CONSTRUCTIONS</div>
 </div>
 
-<!-- SECTION B: CHALECO -->
+<!-- SECTION B: RETROEXCAVADORA -->
 <section class="product-section reverse" id="section-b">
   <div class="watermark-bg"><span>ALL-IN</span></div>
   <div class="container">
     <div class="product-info">
-      <div class="tag">Equipo / 02 — Uniforme</div>
-      <h2>Chaleco Reflectivo Industrial</h2>
-      <p>Diseñado para máxima visibilidad y comodidad en campo. Bandas reflectivas de alta intensidad, bolsillos funcionales con cierre, tela resistente al desgaste y branding bordado. La identidad de nuestro equipo en cada obra que ejecutamos.</p>
-      <div class="price">EN ISO 20471</div>
+      <div class="tag">Maquinaria / 02 — Construcción</div>
+      <h2>Equipo Pesado para Obra Civil</h2>
+      <p>Maquinaria propia y operadores certificados al servicio de cada proyecto. Retroexcavadoras, volquetas y equipo especializado para excavación, nivelación y movimiento de tierra. Potencia controlada, eficiencia comprobada — del cimiento al acabado.</p>
+      <div class="price">Operación Certificada</div>
       <button class="cta">Conocer Más</button>
     </div>
     <div class="product-visual">
       <div class="glow"></div>
-      <img class="product-img" src="assets/chaleco.png" alt="Chaleco reflectivo ALL-IN-CONSTRUCTIONS" />
+      <img class="product-img" src="assets/retroexcavadora.png" alt="Retroexcavadora ALL-IN-CONSTRUCTIONS" />
     </div>
   </div>
 </section>
@@ -910,30 +1383,408 @@
   </div>
 </section>
 
-<!-- PERSONALIZATION -->
-<section class="personalization">
-  <div class="watermark-grid">
-    <span>ALL-IN</span><span>ALL-IN</span><span>ALL-IN</span>
-    <span>ALL-IN</span><span>ALL-IN</span><span>ALL-IN</span>
-    <span>ALL-IN</span><span>ALL-IN</span><span>ALL-IN</span>
-  </div>
-  <div class="personalization-inner">
-    <div class="personalization-instr">Personaliza tu equipo · escribe tu nombre</div>
-    <div class="custom-jacket-wrap">
-      <img src="assets/casco.png" alt="Casco personalizable" style="width:100%;height:100%;object-fit:contain;" />
-      <div class="name-overlay" id="nameOverlay">TU NOMBRE</div>
+<!-- ABOUT US -->
+<section id="about" class="company-section">
+  <div class="inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Sobre Nosotros</div>
+      <h2 class="section-title">Vamos <em>All-In</em> en cada obra</h2>
+      <p class="section-lead">Empresa ecuatoriana del sector de la construcción, constituida en 2022 con sede en El Empalme, Provincia de Guayas. Combinamos rigor técnico, gestión eficiente y compromiso inquebrantable con la calidad.</p>
     </div>
-    <input type="text" id="nameInput" class="name-input" placeholder="TU NOMBRE" maxlength="14" />
-    <button class="share-btn" id="shareBtn">Compartir</button>
-    <div class="share-feedback" id="shareFeedback"></div>
+
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Nacimos con una convicción clara: cada proyecto merece el <strong>mismo nivel de compromiso, rigor técnico y atención al detalle</strong>, sin importar su escala. En All-In-Constructions no hacemos las cosas a medias.</p>
+        <p>Ofrecemos soluciones integrales que abarcan desde el <strong>diseño arquitectónico hasta la entrega final de la obra</strong>, pasando por supervisión técnica, remodelaciones y consultoría especializada.</p>
+        <p>Estratégicamente ubicados en El Empalme — punto de conexión entre la Costa y la Sierra ecuatoriana — operamos con agilidad en toda la región, con acceso directo a las principales rutas comerciales del país.</p>
+        <p>En poco tiempo hemos demostrado un crecimiento sostenido que refleja <strong>la confianza que nuestros clientes depositan en nosotros</strong>.</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">2022</div>
+          <div class="stat-label">Año de fundación</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value"><em>+113%</em></div>
+          <div class="stat-label">Crecimiento ingresos 2023</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value"><em>+65%</em></div>
+          <div class="stat-label">Crecimiento activos 2023</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">5</div>
+          <div class="stat-label">Servicios integrales</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISIÓN & VISIÓN -->
+<section id="mision-vision" class="company-section">
+  <div class="inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Propósito</div>
+      <h2 class="section-title">Misión &amp; <em>Visión</em></h2>
+    </div>
+
+    <div class="mv-grid">
+      <div class="mv-card" data-num="01">
+        <div class="mv-tag">Nuestra Misión</div>
+        <h3>Misión</h3>
+        <p>Brindar servicios integrales de diseño, construcción, interventoría, remodelaciones y consultoría con los más altos estándares de calidad, seguridad y cumplimiento normativo. Trabajamos para transformar las ideas de nuestros clientes en obras sólidas y funcionales, optimizando recursos, cumpliendo plazos y garantizando resultados que superen las expectativas. Nuestro compromiso es con cada detalle — desde el primer trazo del plano hasta la entrega de llaves.</p>
+      </div>
+      <div class="mv-card" data-num="02">
+        <div class="mv-tag">Nuestra Visión</div>
+        <h3>Visión</h3>
+        <p>Consolidarnos como la constructora de referencia en la Provincia de Guayas y la región Costa del Ecuador, reconocida por la excelencia de sus proyectos, la innovación en sus procesos y la confianza que genera en cada cliente. Para 2030, aspiramos a ser una empresa con presencia interprovincial, liderando proyectos de obra civil que contribuyan al desarrollo urbano y rural de nuestras comunidades.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALORES -->
+<section id="valores" class="company-section">
+  <div class="inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Valores</div>
+      <h2 class="section-title">Lo que <em>nos define</em></h2>
+      <p class="section-lead">Seis principios que guían cada decisión, cada plano, cada obra que entregamos.</p>
+    </div>
+
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-num">/ 01</div>
+        <h4>Compromiso Total</h4>
+        <p>Cada proyecto recibe el 100% de nuestra dedicación. No hay obras menores — cada una es nuestra carta de presentación.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-num">/ 02</div>
+        <h4>Seguridad</h4>
+        <p>La integridad de nuestro equipo y de quienes habitan nuestras obras es innegociable. Superamos las normas vigentes en seguridad industrial.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-num">/ 03</div>
+        <h4>Calidad</h4>
+        <p>Utilizamos materiales certificados, técnicas probadas y personal capacitado para garantizar acabados y estructuras de primer nivel.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-num">/ 04</div>
+        <h4>Transparencia</h4>
+        <p>Presupuestos claros, cronogramas realistas, comunicación constante. El cliente siempre sabe en qué estado está su proyecto.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-num">/ 05</div>
+        <h4>Cumplimiento</h4>
+        <p>Entregamos en el plazo acordado. Nuestra palabra es nuestro contrato más importante.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-num">/ 06</div>
+        <h4>Innovación</h4>
+        <p>Adoptamos nuevas tecnologías y metodologías constructivas para optimizar costos sin sacrificar calidad.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios" class="company-section">
+  <div class="inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Servicios Integrales</div>
+      <h2 class="section-title">Soluciones <em>de extremo a extremo</em></h2>
+      <p class="section-lead">Un solo equipo. Cinco servicios. Toda la cadena de valor de tu proyecto bajo un mismo estándar.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card" data-num="01">
+        <div class="stag">Servicio 01</div>
+        <h3>Diseño Arquitectónico e Ingeniería</h3>
+        <p>Desarrollamos proyectos de diseño integral que combinan funcionalidad, estética y viabilidad estructural. Cada plano refleja la visión del cliente, ejecutada con precisión técnica y apegada a las normativas vigentes.</p>
+        <ul>
+          <li>Diseño arquitectónico</li>
+          <li>Diseño estructural</li>
+          <li>Instalaciones eléctricas e hidrosanitarias</li>
+          <li>Renders 3D y memorias técnicas</li>
+          <li>Trámites de permisos</li>
+        </ul>
+      </div>
+      <div class="service-card" data-num="02">
+        <div class="stag">Servicio 02</div>
+        <h3>Construcción de Obra Civil</h3>
+        <p>Ejecutamos proyectos residenciales, comerciales e industriales desde los cimientos hasta los acabados finales. Del plano a la realidad, sin improvisaciones.</p>
+        <ul>
+          <li>Obra gris y acabados</li>
+          <li>Cimentaciones y estructura</li>
+          <li>Mampostería e instalaciones</li>
+          <li>Acabados finos</li>
+          <li>Llave en mano</li>
+        </ul>
+      </div>
+      <div class="service-card" data-num="03">
+        <div class="stag">Servicio 03</div>
+        <h3>Interventoría y Supervisión Técnica</h3>
+        <p>Ofrecemos control y vigilancia técnica, administrativa y financiera de proyectos de construcción. Su inversión, bajo nuestra supervisión.</p>
+        <ul>
+          <li>Control de calidad de materiales</li>
+          <li>Supervisión de avance de obra</li>
+          <li>Verificación normativa</li>
+          <li>Informes periódicos</li>
+          <li>Gestión de no conformidades</li>
+        </ul>
+      </div>
+      <div class="service-card" data-num="04">
+        <div class="stag">Servicio 04</div>
+        <h3>Remodelaciones y Adecuaciones</h3>
+        <p>Transformamos espacios existentes con intervenciones inteligentes. Renovación, ampliación o reforzamiento estructural — con el mismo rigor que una obra nueva.</p>
+        <ul>
+          <li>Remodelación de interiores y exteriores</li>
+          <li>Ampliaciones</li>
+          <li>Reforzamiento estructural</li>
+          <li>Cambio de uso</li>
+          <li>Acabados y mejoras estéticas</li>
+        </ul>
+      </div>
+      <div class="service-card" data-num="05">
+        <div class="stag">Servicio 05</div>
+        <h3>Consultoría Técnica Especializada</h3>
+        <p>Asesoría experta para tomar las mejores decisiones en su proyecto. Estudios, presupuestos, licencias y trámites — antes, durante y después de la obra.</p>
+        <ul>
+          <li>Estudios de factibilidad</li>
+          <li>Presupuestos y análisis de costos</li>
+          <li>Gestión de permisos y licencias</li>
+          <li>Asesoría normativa</li>
+          <li>Peritajes y diagnósticos estructurales</li>
+        </ul>
+      </div>
+      <div class="service-card" data-num="*" style="background: linear-gradient(135deg, rgba(47,87,245,0.15), rgba(47,87,245,0.04)); border-color: rgba(47,87,245,0.4);">
+        <div class="stag">¿Tiene un proyecto?</div>
+        <h3>Hablemos</h3>
+        <p>Cada obra empieza con una conversación. Cuéntenos su idea y le entregaremos una propuesta personalizada en menos de 48 horas.</p>
+        <a href="#contacto" class="hero-cta" style="margin-top: 12px;">Cotizar Proyecto</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POR QUÉ ELEGIRNOS -->
+<section id="porque" class="company-section">
+  <div class="inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Por Qué Elegirnos</div>
+      <h2 class="section-title">Razones para <em>confiar</em></h2>
+    </div>
+
+    <div class="reasons-grid">
+      <div class="reason-card">
+        <div class="reason-num">01</div>
+        <h4>Solución Integral</h4>
+        <p>Un solo equipo para diseño, construcción, supervisión y consultoría. Sin intermediarios.</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-num">02</div>
+        <h4>Crecimiento Comprobado</h4>
+        <p>Más del 113% de crecimiento en ingresos en nuestro primer año operativo completo.</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-num">03</div>
+        <h4>Ubicación Estratégica</h4>
+        <p>En El Empalme, punto de conexión clave entre Costa y Sierra, con acceso a toda la región.</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-num">04</div>
+        <h4>Presupuesto Cerrado</h4>
+        <p>Cotizamos con claridad. Sin sorpresas ni costos ocultos durante la ejecución.</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-num">05</div>
+        <h4>Cumplimiento de Plazos</h4>
+        <p>Cada proyecto tiene un cronograma detallado que respetamos al pie de la letra.</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-num">06</div>
+        <h4>Seguridad Certificada</h4>
+        <p>Todo nuestro personal opera con EPP y protocolos de seguridad industrial.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section id="proceso" class="company-section">
+  <div class="inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Nuestro Proceso</div>
+      <h2 class="section-title">De la idea <em>a las llaves</em></h2>
+      <p class="section-lead">Cinco etapas. Un solo objetivo: entregar una obra que supere las expectativas.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="step">
+        <div class="step-dot">01</div>
+        <h5>Consulta Inicial</h5>
+        <p>Escuchamos su idea, evaluamos necesidades, presupuesto y terreno.</p>
+      </div>
+      <div class="step">
+        <div class="step-dot">02</div>
+        <h5>Diseño y Planificación</h5>
+        <p>Planos, renders, presupuesto detallado y cronograma de obra.</p>
+      </div>
+      <div class="step">
+        <div class="step-dot">03</div>
+        <h5>Aprobación y Permisos</h5>
+        <p>Gestionamos las licencias y permisos ante los organismos competentes.</p>
+      </div>
+      <div class="step">
+        <div class="step-dot">04</div>
+        <h5>Ejecución de Obra</h5>
+        <p>Construimos con supervisión diaria, control de calidad y reportes periódicos.</p>
+      </div>
+      <div class="step">
+        <div class="step-dot">05</div>
+        <h5>Entrega y Garantía</h5>
+        <p>Obra terminada con documentación completa y periodo de garantía.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto" class="company-section">
+  <div class="inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Contacto</div>
+      <h2 class="section-title">Construyamos <em>juntos</em></h2>
+      <p class="section-lead">¿Tiene un proyecto en mente? Escríbanos y recibirá una propuesta personalizada en menos de 48 horas.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="item">
+          <div class="contact-icon">◉</div>
+          <div>
+            <div class="contact-item-label">Ubicación</div>
+            <div class="contact-item-value">El Empalme (Velasco Ibarra)<br/>Provincia de Guayas, Ecuador</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="contact-icon">✆</div>
+          <div>
+            <div class="contact-item-label">Teléfono</div>
+            <div class="contact-item-value">+593 99 000 0000</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="contact-icon">@</div>
+          <div>
+            <div class="contact-item-label">Email</div>
+            <div class="contact-item-value">contacto@allinconstructions.ec</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="contact-icon">⏱</div>
+          <div>
+            <div class="contact-item-label">Horario</div>
+            <div class="contact-item-value">Lun – Vie · 8:00 — 17:00<br/>Sábados · 8:00 — 12:00</div>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form" id="contactForm">
+        <div class="form-row">
+          <div>
+            <label>Nombre</label>
+            <input type="text" name="name" required placeholder="Su nombre completo" />
+          </div>
+          <div>
+            <label>Teléfono</label>
+            <input type="tel" name="phone" required placeholder="+593 ..." />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="full">
+            <label>Email</label>
+            <input type="email" name="email" required placeholder="su@correo.com" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="full">
+            <label>Tipo de proyecto</label>
+            <select name="type">
+              <option>Diseño Arquitectónico</option>
+              <option>Construcción de Obra Civil</option>
+              <option>Interventoría / Supervisión</option>
+              <option>Remodelaciones</option>
+              <option>Consultoría Técnica</option>
+              <option>Otro</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="full">
+            <label>Cuéntenos sobre su proyecto</label>
+            <textarea name="message" rows="4" placeholder="Ubicación, dimensiones, plazos aproximados..."></textarea>
+          </div>
+        </div>
+        <button type="submit" class="submit-btn">Enviar Propuesta →</button>
+      </form>
+    </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer>
-  <div>© 2026 ALL-IN-CONSTRUCTIONS S.A.S. · Ecuador</div>
-  <div>Términos &amp; Condiciones | Privacidad | Cookies</div>
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="assets/logo.svg" alt="ALL-IN-CONSTRUCTIONS" />
+      <p><strong>ALL-IN-CONSTRUCTIONS S.A.S</strong><br/>Construimos soluciones, edificamos confianza.</p>
+      <p style="font-size:11px;">El Empalme (Velasco Ibarra)<br/>Provincia de Guayas, Ecuador</p>
+    </div>
+    <div class="footer-col">
+      <h6>Servicios</h6>
+      <ul>
+        <li><a href="#servicios">Diseño</a></li>
+        <li><a href="#servicios">Construcción</a></li>
+        <li><a href="#servicios">Interventoría</a></li>
+        <li><a href="#servicios">Remodelaciones</a></li>
+        <li><a href="#servicios">Consultoría</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h6>Empresa</h6>
+      <ul>
+        <li><a href="#about">Sobre Nosotros</a></li>
+        <li><a href="#mision-vision">Misión &amp; Visión</a></li>
+        <li><a href="#valores">Valores</a></li>
+        <li><a href="#proceso">Proceso</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h6>Legal</h6>
+      <ul>
+        <li><a href="#">Términos y condiciones</a></li>
+        <li><a href="#">Política de privacidad</a></li>
+        <li><a href="#">Cookies</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 All-In-Constructions S.A.S · Todos los derechos reservados</div>
+    <div class="social">
+      <a href="#" aria-label="Instagram">IG</a>
+      <a href="#" aria-label="Facebook">FB</a>
+      <a href="https://wa.me/593000000000" aria-label="WhatsApp">WA</a>
+      <a href="#" aria-label="TikTok">TT</a>
+    </div>
+  </div>
 </footer>
+
+<!-- WhatsApp Float -->
+<a class="whatsapp-float" href="https://wa.me/593000000000?text=Hola%20All-In-Constructions%2C%20me%20interesa%20su%20servicio" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.157 5.335 5.491 0 12.05 0a11.82 11.82 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+</a>
 
 <script>
   /* === LOADER === */
@@ -975,8 +1826,7 @@
   /* === LIGHT MODE DETECTION (for sections with light bg) === */
   const lightSections = [
     document.getElementById('section-c'),
-    document.querySelector('.personalization'),
-    document.querySelector('footer')
+    document.getElementById('contacto')
   ].filter(Boolean);
 
   function updateLightMode() {
@@ -1097,23 +1947,16 @@
   }, { threshold: 0.5 });
   document.querySelectorAll('.glitch-divider').forEach(d => glitchObserver.observe(d));
 
-  /* === PERSONALIZATION === */
-  const nameInput = document.getElementById('nameInput');
-  const nameOverlay = document.getElementById('nameOverlay');
-  const shareBtn = document.getElementById('shareBtn');
-  const feedback = document.getElementById('shareFeedback');
-
-  nameInput.addEventListener('input', (e) => {
-    const v = e.target.value.trim().toUpperCase();
-    nameOverlay.textContent = v || 'TU NOMBRE';
-  });
-
-  shareBtn.addEventListener('click', () => {
-    const v = (nameInput.value || '').trim().toUpperCase() || 'TU NOMBRE';
-    feedback.textContent = `Compartido: ${v}`;
-    feedback.classList.add('show');
-    setTimeout(() => feedback.classList.remove('show'), 2400);
-  });
+  /* === CONTACT FORM === */
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = new FormData(contactForm);
+      const text = `Hola ALL-IN-CONSTRUCTIONS,%0A%0ASoy ${f.get('name')}.%0ATeléfono: ${f.get('phone')}%0AEmail: ${f.get('email')}%0AProyecto: ${f.get('type')}%0A%0ADetalles: ${f.get('message') || '-'}`;
+      window.open(`https://wa.me/593000000000?text=${text}`, '_blank');
+    });
+  }
 </script>
 </body>
 </html>
