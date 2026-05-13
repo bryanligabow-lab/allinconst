@@ -1,7 +1,7 @@
 "use client";
 
 import { Facebook, Instagram, Linkedin, ArrowUp } from "lucide-react";
-import { SITE } from "@/lib/utils";
+import { SITE, asset } from "@/lib/utils";
 
 const cols = [
   {
@@ -42,10 +42,12 @@ export function Footer() {
         <div className="grid gap-12 pb-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <div className="flex items-center gap-3">
-              <div className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-800 shadow-glow ring-1 ring-white/10">
-                <span className="font-display text-lg font-black tracking-tight text-white">
-                  AC
-                </span>
+              <div className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl bg-white p-1.5 shadow-glow ring-1 ring-white/10">
+                <img
+                  src={asset("/images/logo.png")}
+                  alt="ALL-IN-CONSTRUCTIONS"
+                  className="h-full w-full object-contain"
+                />
               </div>
               <div>
                 <div className="font-display text-base font-bold text-white">

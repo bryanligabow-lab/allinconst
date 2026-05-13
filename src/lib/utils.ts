@@ -27,3 +27,10 @@ export function whatsappLink(message: string) {
   const encoded = encodeURIComponent(message);
   return `https://wa.me/${SITE.whatsapp}?text=${encoded}`;
 }
+
+// Prefixes static assets with basePath for GitHub Pages
+export function asset(path: string) {
+  const base =
+    process.env.NODE_ENV === "production" ? "/allinconst" : "";
+  return `${base}${path.startsWith("/") ? path : `/${path}`}`;
+}

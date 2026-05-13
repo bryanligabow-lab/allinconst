@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { cn, SITE, whatsappLink } from "@/lib/utils";
+import { cn, SITE, whatsappLink, asset } from "@/lib/utils";
 
 const navItems = [
   { label: "Inicio", href: "#inicio" },
@@ -44,11 +44,12 @@ export function Navbar() {
             className="group flex items-center gap-3"
             aria-label={SITE.name}
           >
-            <div className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-800 shadow-glow ring-1 ring-white/10">
-              <span className="font-display text-lg font-black tracking-tight text-white">
-                AC
-              </span>
-              <span className="absolute inset-0 rounded-xl border border-white/10" />
+            <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl bg-white p-1 shadow-glow ring-1 ring-white/10">
+              <img
+                src={asset("/images/logo.png")}
+                alt="ALL-IN-CONSTRUCTIONS"
+                className="h-full w-full object-contain"
+              />
             </div>
             <div className="hidden sm:block">
               <div className="font-display text-[15px] font-bold leading-tight tracking-tight text-white">

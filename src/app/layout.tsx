@@ -37,7 +37,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_EC"
   },
-  robots: { index: true, follow: true }
+  robots: { index: true, follow: true },
+  icons: {
+    icon: [
+      { url: "/allinconst/images/logo.png", type: "image/png" }
+    ],
+    apple: "/allinconst/images/logo.png"
+  }
 };
 
 export default function RootLayout({

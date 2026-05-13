@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { asset } from "@/lib/utils";
 
 export function Preloader() {
   const [done, setDone] = useState(false);
@@ -41,28 +42,28 @@ export function Preloader() {
             transition={{ duration: 0.6 }}
             className="relative"
           >
-            <div className="relative flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-800 shadow-glow-lg ring-1 ring-white/10">
-              <motion.div
-                animate={{ opacity: [1, 0.4, 1] }}
+            <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-2xl bg-white p-3 shadow-glow-lg ring-1 ring-white/10">
+              <motion.img
+                src={asset("/images/logo.png")}
+                alt="ALL-IN-CONSTRUCTIONS"
+                animate={{ opacity: [1, 0.6, 1] }}
                 transition={{
                   duration: 1.6,
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
-                className="font-display text-3xl font-black tracking-tight text-white"
-              >
-                AC
-              </motion.div>
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-                className="absolute -inset-2 rounded-2xl border-2 border-dashed border-brand-400/40"
+                className="h-full w-full object-contain"
               />
             </div>
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+              className="pointer-events-none absolute -inset-3 rounded-2xl border-2 border-dashed border-brand-400/50"
+            />
           </motion.div>
 
           <motion.div

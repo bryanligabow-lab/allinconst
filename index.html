@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CHILE 20 — Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --black: #050505;
+    --red: #e02020;
+    --red-bright: #ff2a2a;
+    --white: #f5f5f5;
+    --gray: #888888;
+    --gray-dark: #444;
+    --beige: #f0ece6;
+    --dark-fg: #1a1a1a;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    cursor: crosshair;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a, button, input { cursor: crosshair; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: var(--red); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--red-bright); }
+
+  ::selection { background: var(--red); color: #fff; }
+
+  /* === NOISE OVERLAY === */
+  .noise-overlay {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    z-index: 9998;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* === CURSOR GLOW === */
+  .cursor-glow {
+    position: fixed;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(224, 32, 32, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 9997;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.6s var(--ease);
+    will-change: transform;
+    mix-blend-mode: screen;
+  }
+  body.light-mode .cursor-glow { opacity: 0; }
+
+  /* === AMBIENT RED VERTICAL LINES === */
+  .ambient-lines {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.8s var(--ease);
+  }
+  body.light-mode .ambient-lines { opacity: 0; }
+  .ambient-line {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 2px;
+    opacity: 0.15;
+    background: linear-gradient(180deg, transparent 0%, var(--red-bright) 50%, transparent 100%);
+  }
+  .ambient-line:nth-child(1) { left: 15%; }
+  .ambient-line:nth-child(2) { left: 35%; animation: lineShift 9s ease-in-out infinite alternate; }
+  .ambient-line:nth-child(3) { left: 55%; }
+  .ambient-line:nth-child(4) { left: 75%; animation: lineShift 11s ease-in-out infinite alternate-reverse; }
+  .ambient-line:nth-child(5) { left: 90%; }
+  @keyframes lineShift {
+    from { opacity: 0.1; }
+    to   { opacity: 0.22; }
+  }
+
+  /* === LOADING SCREEN === */
+  .loader {
+    position: fixed; inset: 0;
+    background: var(--black);
+    z-index: 10000;
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    gap: 28px;
+    transition: opacity 0.8s var(--ease), visibility 0s linear 0.8s;
+  }
+  .loader.hidden { opacity: 0; visibility: hidden; }
+  .loader-title {
+    font-family: var(--font-display);
+    font-size: 72px;
+    letter-spacing: 16px;
+    color: var(--white);
+    padding-left: 16px;
+  }
+  .loader-bar {
+    width: 320px; height: 2px;
+    background: rgba(255,255,255,0.08);
+    overflow: hidden; position: relative;
+  }
+  .loader-fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 0;
+    background: var(--red-bright);
+    box-shadow: 0 0 20px var(--red);
+    animation: loadFill 1.6s var(--ease) forwards;
+  }
+  @keyframes loadFill { to { width: 100%; } }
+  .loader-sub {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--gray);
+    text-transform: uppercase;
+  }
+
+  /* === NAV === */
+  nav.main-nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 9000;
+    padding: 26px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    mix-blend-mode: difference;
+    color: #fff;
+  }
+  .nav-left { display: flex; align-items: center; gap: 22px; font-family: var(--font-display); font-size: 22px; letter-spacing: 3px; }
+  .nav-sep { width: 1px; height: 18px; background: rgba(255,255,255,0.6); }
+  .nav-right { display: flex; align-items: center; gap: 24px; }
+  .btn-shop {
+    border: 1px solid #fff;
+    background: transparent;
+    color: #fff;
+    padding: 10px 18px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    transition: all 0.4s var(--ease);
+  }
+  .btn-shop:hover { background: #fff; color: #000; }
+  .lang-toggle { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; color: #888; text-transform: uppercase; }
+  .lang-toggle .active { color: #fff; }
+
+  /* === HERO === */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background:
+      radial-gradient(ellipse at center bottom, rgba(50,0,0,0.35) 0%, transparent 60%),
+      linear-gradient(180deg, #050505 0%, #0a0606 50%, #050505 100%);
+    overflow: hidden;
+    padding: 120px 40px 80px;
+  }
+  /* Reflective floor */
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 200px;
+    background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.02) 50%, rgba(0,0,0,0.6) 100%);
+    pointer-events: none;
+  }
+
+  /* Central glowing red bar */
+  .hero-beam {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    background: linear-gradient(180deg, transparent 0%, var(--red-bright) 20%, var(--red-bright) 80%, transparent 100%);
+    box-shadow:
+      0 0 60px rgba(224,32,32,0.8),
+      0 0 120px rgba(224,32,32,0.5),
+      0 0 200px rgba(224,32,32,0.3);
+    z-index: 1;
+  }
+  .hero-beam::before, .hero-beam::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: rgba(255,255,255,0.25);
+  }
+  .hero-beam::before { left: -22px; }
+  .hero-beam::after  { right: -22px; }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex; flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .products-row {
+    display: flex; align-items: center; justify-content: center;
+    gap: 40px;
+    width: 100%;
+    perspective: 1000px;
+  }
+
+  .product-card {
+    width: 280px; height: 420px;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.6s var(--ease);
+    will-change: transform;
+  }
+  .product-card.side { transform: scale(0.88); opacity: 0.7; filter: brightness(0.6); }
+  .product-card.side.left  { transform: scale(0.88) translateX(30px); }
+  .product-card.side.right { transform: scale(0.88) translateX(-30px); }
+  .product-card.center { transform: scale(1.05); z-index: 5; }
+  .product-card:hover { transform: scale(1.08) translateY(-10px); opacity: 1; filter: brightness(1); z-index: 6; }
+  .product-card .label {
+    position: absolute; bottom: -34px; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 3px;
+    color: var(--gray); text-transform: uppercase; white-space: nowrap;
+  }
+
+  .jacket-svg {
+    width: 100%; height: 100%;
+    transition: transform 0.6s var(--ease);
+  }
+
+  .hero-title-wrap {
+    border: 3px solid #fff;
+    padding: 10px 36px 4px 36px;
+    display: inline-block;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: 64px;
+    letter-spacing: 8px;
+    color: #fff;
+    line-height: 1;
+  }
+  .hero-sub {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--gray);
+    text-transform: uppercase;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 30px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    animation: floatY 3s ease-in-out infinite;
+    z-index: 5;
+  }
+  .scroll-line {
+    width: 1px; height: 60px;
+    background: linear-gradient(180deg, #fff, transparent);
+  }
+  .scroll-text {
+    font-family: var(--font-mono); font-size: 9px;
+    letter-spacing: 3px; color: var(--gray); text-transform: uppercase;
+  }
+  @keyframes floatY {
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-10px); }
+  }
+
+  /* === PRODUCT SECTIONS === */
+  .product-section {
+    position: relative;
+    min-height: 100vh;
+    padding: 140px 80px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .product-section .container {
+    width: 100%; max-width: 1200px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+    align-items: center;
+  }
+  .product-section.reverse .container { direction: rtl; }
+  .product-section.reverse .container > * { direction: ltr; }
+
+  .product-visual {
+    position: relative;
+    height: 520px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transform: translateY(60px);
+    transition: opacity 1s var(--ease), transform 1s var(--ease);
+  }
+  .product-visual.in { opacity: 1; transform: translateY(0); }
+  .product-visual .glow {
+    position: absolute;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: 0;
+  }
+  .product-visual .jacket-svg { position: relative; z-index: 1; max-width: 80%; max-height: 100%; }
+
+  .product-info { color: inherit; }
+  .product-info .tag {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 4px;
+    color: var(--gray); text-transform: uppercase; margin-bottom: 20px;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  }
+  .product-info h2 {
+    font-family: var(--font-display); font-size: 48px;
+    letter-spacing: 2px; line-height: 1.05;
+    margin-bottom: 24px; max-width: 480px;
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.9s var(--ease) 0.2s, transform 0.9s var(--ease) 0.2s;
+  }
+  .product-info p {
+    font-family: var(--font-mono); font-size: 13px;
+    line-height: 1.85; color: var(--gray); max-width: 420px;
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.9s var(--ease) 0.4s, transform 0.9s var(--ease) 0.4s;
+  }
+  .product-info .price {
+    margin-top: 36px;
+    font-family: var(--font-display); font-size: 32px;
+    letter-spacing: 3px; color: var(--white);
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.9s var(--ease) 0.55s, transform 0.9s var(--ease) 0.55s;
+  }
+  .product-info .cta {
+    margin-top: 32px;
+    background: transparent; border: 1px solid currentColor;
+    padding: 14px 28px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; color: inherit;
+    transition: all 0.4s var(--ease);
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.9s var(--ease) 0.7s, transform 0.9s var(--ease) 0.7s, background 0.4s var(--ease), color 0.4s var(--ease);
+  }
+  .product-info.in .tag,
+  .product-info.in h2,
+  .product-info.in p,
+  .product-info.in .price,
+  .product-info.in .cta { opacity: 1; transform: translateY(0); }
+  .product-info .cta:hover { background: var(--red); border-color: var(--red); color: #fff; }
+
+  /* Section A: red theme */
+  #section-a {
+    background:
+      radial-gradient(ellipse at 30% 50%, rgba(224,32,32,0.06) 0%, transparent 60%),
+      linear-gradient(135deg, #0a0505 0%, #1a0808 50%, #0a0505 100%);
+  }
+  #section-a .glow { background: var(--red); opacity: 0.3; }
+
+  /* Section B: teal/gray theme, reversed */
+  #section-b {
+    background:
+      radial-gradient(ellipse at 70% 50%, rgba(32,160,160,0.06) 0%, transparent 60%),
+      linear-gradient(135deg, #050a0a 0%, #081a1a 50%, #050a0a 100%);
+  }
+  #section-b .glow { background: #20a0a0; opacity: 0.28; }
+  #section-b .watermark-bg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+  #section-b .watermark-bg span {
+    font-family: var(--font-display);
+    font-size: 320px; letter-spacing: 20px;
+    color: rgba(255,255,255,0.025);
+    white-space: nowrap;
+  }
+
+  /* Section C: light theme */
+  #section-c {
+    background: var(--beige);
+    color: var(--dark-fg);
+  }
+  #section-c .product-info .tag,
+  #section-c .product-info p { color: #555; }
+  #section-c .product-info h2 { color: var(--dark-fg); }
+  #section-c .product-info .price { color: var(--dark-fg); }
+  #section-c .product-info .cta { color: var(--dark-fg); border-color: var(--dark-fg); }
+  #section-c .product-info .cta:hover { background: var(--dark-fg); color: var(--beige); }
+  #section-c .product-visual {
+    filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15));
+  }
+
+  /* === GLITCH DIVIDER === */
+  .glitch-divider {
+    height: 220px;
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .glitch-text {
+    font-family: var(--font-display);
+    font-size: 120px;
+    letter-spacing: 20px;
+    color: #fff;
+    position: relative;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+  }
+  .glitch-text::before {
+    color: var(--red);
+    clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+    animation: glitchTop 2.4s infinite linear alternate-reverse;
+  }
+  .glitch-text::after {
+    color: #20e0e0;
+    clip-path: polygon(0 66%, 100% 66%, 100% 100%, 0 100%);
+    animation: glitchBottom 2.4s infinite linear alternate-reverse;
+  }
+  @keyframes glitchTop {
+    0%   { transform: translate(0,0); }
+    20%  { transform: translate(-3px, 2px); }
+    40%  { transform: translate(2px, -3px); }
+    60%  { transform: translate(-2px, 1px); }
+    80%  { transform: translate(3px, -2px); }
+    100% { transform: translate(0,0); }
+  }
+  @keyframes glitchBottom {
+    0%   { transform: translate(0,0); }
+    20%  { transform: translate(3px, -1px); }
+    40%  { transform: translate(-3px, 2px); }
+    60%  { transform: translate(2px, -2px); }
+    80%  { transform: translate(-2px, 3px); }
+    100% { transform: translate(0,0); }
+  }
+  .glitch-divider.active .glitch-text::before { animation-duration: 0.1s; }
+  .glitch-divider.active .glitch-text::after  { animation-duration: 0.1s; }
+
+  /* Scan lines */
+  .glitch-divider::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(180deg, transparent 0px, transparent 2px, rgba(255,255,255,0.015) 3px, rgba(255,255,255,0.015) 4px);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .glitch-bar {
+    position: absolute; left: 0; right: 0;
+    height: 3px;
+    background: var(--red);
+    opacity: 0;
+    z-index: 3;
+  }
+  .glitch-bar.b1 { top: 20%; animation: barFlash 3s ease-in-out infinite; }
+  .glitch-bar.b2 { top: 45%; animation: barFlash 3s ease-in-out 1.2s infinite; height: 2px; background: #20e0e0; }
+  .glitch-bar.b3 { top: 70%; animation: barFlash 3s ease-in-out 2.4s infinite; }
+  @keyframes barFlash {
+    0%, 100% { opacity: 0; }
+    5%  { opacity: 0.8; }
+    10% { opacity: 0; }
+    15% { opacity: 0.5; }
+    20% { opacity: 0; }
+  }
+
+  /* === PERSONALIZATION === */
+  .personalization {
+    position: relative;
+    background: var(--beige);
+    color: var(--dark-fg);
+    padding: 160px 40px;
+    overflow: hidden;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center;
+  }
+  .personalization .watermark-grid {
+    position: absolute; inset: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+    align-items: center; justify-items: center;
+    pointer-events: none;
+    padding: 60px;
+  }
+  .personalization .watermark-grid span {
+    font-family: var(--font-display);
+    font-size: 160px; letter-spacing: 12px;
+    color: rgba(0,0,0,0.04);
+    line-height: 1;
+  }
+  .personalization-inner {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 32px;
+    max-width: 700px;
+  }
+  .personalization-instr {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 3px; color: #555; text-transform: uppercase;
+  }
+  .custom-jacket-wrap {
+    position: relative;
+    width: 320px; height: 460px;
+    filter: drop-shadow(0 30px 30px rgba(0,0,0,0.15));
+  }
+  .custom-jacket-wrap svg { width: 100%; height: 100%; }
+  .name-overlay {
+    position: absolute;
+    top: 36%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    pointer-events: none;
+    max-width: 60%;
+    text-align: center;
+    line-height: 1;
+  }
+  .name-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--dark-fg);
+    font-family: var(--font-display);
+    font-size: 48px;
+    letter-spacing: 6px;
+    color: var(--dark-fg);
+    text-align: center;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    width: 360px;
+    caret-color: var(--red);
+    outline: none;
+    transition: border-color 0.4s var(--ease);
+  }
+  .name-input::placeholder { color: rgba(0,0,0,0.25); }
+  .name-input:focus { border-color: var(--red); }
+  .share-btn {
+    background: var(--dark-fg);
+    color: var(--beige);
+    border: none;
+    padding: 18px 48px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    transition: all 0.4s var(--ease);
+  }
+  .share-btn:hover { background: var(--red); color: #fff; transform: scale(1.03); }
+  .share-feedback {
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 3px; color: var(--red); text-transform: uppercase;
+    height: 16px;
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+  }
+  .share-feedback.show { opacity: 1; }
+
+  /* === FOOTER === */
+  footer {
+    background: var(--beige);
+    color: var(--dark-fg);
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding: 32px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono); font-size: 9px;
+    letter-spacing: 2.5px; text-transform: uppercase;
+    color: #777;
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    nav.main-nav { padding: 18px 20px; }
+    .nav-left { font-size: 14px; gap: 12px; letter-spacing: 2px; }
+    .nav-sep { height: 12px; }
+    .btn-shop { padding: 8px 12px; font-size: 9px; }
+    .lang-toggle { font-size: 9px; }
+
+    .hero { padding: 110px 16px 80px; }
+    .products-row { gap: 8px; }
+    .product-card { width: 110px; height: 220px; }
+    .product-card .label { font-size: 7px; bottom: -22px; }
+    .hero-title { font-size: 36px; letter-spacing: 4px; }
+    .hero-title-wrap { padding: 8px 20px 4px; }
+    .hero-sub { font-size: 9px; letter-spacing: 2px; }
+
+    .product-section { padding: 100px 20px; }
+    .product-section .container { grid-template-columns: 1fr; gap: 40px; }
+    .product-section.reverse .container { direction: ltr; }
+    .product-visual { height: 360px; }
+    .product-info h2 { font-size: 32px; }
+    .product-info p { font-size: 12px; }
+    .product-info .price { font-size: 24px; }
+
+    .glitch-divider { height: 140px; }
+    .glitch-text { font-size: 60px; letter-spacing: 10px; }
+
+    #section-b .watermark-bg span { font-size: 160px; }
+
+    .personalization { padding: 100px 20px; }
+    .personalization .watermark-grid span { font-size: 80px; letter-spacing: 6px; }
+    .custom-jacket-wrap { width: 220px; height: 320px; }
+    .name-input { font-size: 32px; width: 240px; letter-spacing: 4px; }
+
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NOISE OVERLAY -->
+<div class="noise-overlay"></div>
+
+<!-- CURSOR GLOW -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- AMBIENT LINES -->
+<div class="ambient-lines">
+  <div class="ambient-line"></div>
+  <div class="ambient-line"></div>
+  <div class="ambient-line"></div>
+  <div class="ambient-line"></div>
+  <div class="ambient-line"></div>
+</div>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="loader-title">CHILE&nbsp;20</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+  <div class="loader-sub">Loading Collection</div>
+</div>
+
+<!-- NAV -->
+<nav class="main-nav">
+  <div class="nav-left">
+    <span>ADIDAS</span>
+    <span class="nav-sep"></span>
+    <span>CHILE 20</span>
+  </div>
+  <div class="nav-right">
+    <button class="btn-shop" onclick="document.getElementById('section-a').scrollIntoView({behavior:'smooth'})">Shop the Collection</button>
+    <div class="lang-toggle"><span class="active">EN</span> | <span>ES</span></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-beam"></div>
+  <div class="hero-content">
+    <div class="products-row">
+      <!-- Side left: red -->
+      <div class="product-card side left" data-target="#section-a">
+        <svg class="jacket-svg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="redA" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ff2a2a"/>
+              <stop offset="100%" stop-color="#a01010"/>
+            </linearGradient>
+          </defs>
+          <!-- Body -->
+          <path d="M 60 60 L 50 90 L 30 110 L 35 280 L 100 290 L 165 280 L 170 110 L 150 90 L 140 60 Z" fill="url(#redA)"/>
+          <!-- Hood/Collar -->
+          <path d="M 70 60 Q 100 30 130 60 L 130 80 Q 100 70 70 80 Z" fill="#700"/>
+          <!-- Zipper -->
+          <line x1="100" y1="60" x2="100" y2="290" stroke="#1a1a1a" stroke-width="1.5"/>
+          <!-- Stripes -->
+          <line x1="42" y1="120" x2="46" y2="270" stroke="#fff" stroke-width="2" opacity="0.85"/>
+          <line x1="48" y1="120" x2="52" y2="270" stroke="#fff" stroke-width="2" opacity="0.85"/>
+          <line x1="54" y1="120" x2="58" y2="270" stroke="#fff" stroke-width="2" opacity="0.85"/>
+          <!-- Pocket -->
+          <rect x="60" y="190" width="35" height="22" rx="2" fill="#700" opacity="0.7"/>
+          <rect x="105" y="190" width="35" height="22" rx="2" fill="#700" opacity="0.7"/>
+        </svg>
+        <span class="label">Padded · Red</span>
+      </div>
+
+      <!-- Center: gray -->
+      <div class="product-card center" data-target="#section-b">
+        <svg class="jacket-svg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="grayA" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#999"/>
+              <stop offset="100%" stop-color="#3a3a3a"/>
+            </linearGradient>
+          </defs>
+          <path d="M 60 60 L 50 90 L 30 110 L 35 280 L 100 290 L 165 280 L 170 110 L 150 90 L 140 60 Z" fill="url(#grayA)"/>
+          <path d="M 70 60 Q 100 30 130 60 L 130 80 Q 100 70 70 80 Z" fill="#222"/>
+          <line x1="100" y1="60" x2="100" y2="290" stroke="#111" stroke-width="1.5"/>
+          <line x1="42" y1="120" x2="46" y2="270" stroke="#000" stroke-width="2" opacity="0.6"/>
+          <line x1="48" y1="120" x2="52" y2="270" stroke="#000" stroke-width="2" opacity="0.6"/>
+          <line x1="54" y1="120" x2="58" y2="270" stroke="#000" stroke-width="2" opacity="0.6"/>
+          <rect x="60" y="190" width="35" height="22" rx="2" fill="#222" opacity="0.7"/>
+          <rect x="105" y="190" width="35" height="22" rx="2" fill="#222" opacity="0.7"/>
+          <!-- wet sheen -->
+          <path d="M 60 80 L 90 280" stroke="#fff" stroke-width="2" opacity="0.15"/>
+        </svg>
+        <span class="label">Wet Look · Gray</span>
+      </div>
+
+      <!-- Side right: white -->
+      <div class="product-card side right" data-target="#section-c">
+        <svg class="jacket-svg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="whiteA" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fff"/>
+              <stop offset="100%" stop-color="#d8d4cd"/>
+            </linearGradient>
+          </defs>
+          <path d="M 60 60 L 50 90 L 30 110 L 35 280 L 100 290 L 165 280 L 170 110 L 150 90 L 140 60 Z" fill="url(#whiteA)" stroke="#bbb" stroke-width="0.5"/>
+          <path d="M 70 60 Q 100 30 130 60 L 130 80 Q 100 70 70 80 Z" fill="#e8e3d8"/>
+          <line x1="100" y1="60" x2="100" y2="290" stroke="#888" stroke-width="1"/>
+          <line x1="42" y1="120" x2="46" y2="270" stroke="#1a1a1a" stroke-width="2" opacity="0.85"/>
+          <line x1="48" y1="120" x2="52" y2="270" stroke="#1a1a1a" stroke-width="2" opacity="0.85"/>
+          <line x1="54" y1="120" x2="58" y2="270" stroke="#1a1a1a" stroke-width="2" opacity="0.85"/>
+          <rect x="60" y="190" width="35" height="22" rx="2" fill="#e0dccf" opacity="0.9"/>
+          <rect x="105" y="190" width="35" height="22" rx="2" fill="#e0dccf" opacity="0.9"/>
+        </svg>
+        <span class="label">Classic · White</span>
+      </div>
+    </div>
+
+    <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:18px;">
+      <div class="hero-title-wrap"><div class="hero-title">CHILE 20</div></div>
+      <div class="hero-sub">Select a Product to Begin</div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-text">Scroll to Explore</div>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- GLITCH DIVIDER 1 -->
+<div class="glitch-divider">
+  <div class="glitch-bar b1"></div>
+  <div class="glitch-bar b2"></div>
+  <div class="glitch-bar b3"></div>
+  <div class="glitch-text" data-text="CHILE 20">CHILE 20</div>
+</div>
+
+<!-- SECTION A: RED -->
+<section class="product-section" id="section-a">
+  <div class="container">
+    <div class="product-visual">
+      <div class="glow"></div>
+      <svg class="jacket-svg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg" style="max-width:60%;">
+        <defs>
+          <linearGradient id="redB" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ff2a2a"/>
+            <stop offset="100%" stop-color="#a01010"/>
+          </linearGradient>
+        </defs>
+        <path d="M 60 60 L 50 90 L 30 110 L 35 280 L 100 290 L 165 280 L 170 110 L 150 90 L 140 60 Z" fill="url(#redB)"/>
+        <path d="M 70 60 Q 100 30 130 60 L 130 80 Q 100 70 70 80 Z" fill="#700"/>
+        <line x1="100" y1="60" x2="100" y2="290" stroke="#1a1a1a" stroke-width="1.5"/>
+        <line x1="42" y1="120" x2="46" y2="270" stroke="#fff" stroke-width="2"/>
+        <line x1="48" y1="120" x2="52" y2="270" stroke="#fff" stroke-width="2"/>
+        <line x1="54" y1="120" x2="58" y2="270" stroke="#fff" stroke-width="2"/>
+        <rect x="60" y="190" width="35" height="22" rx="2" fill="#700"/>
+        <rect x="105" y="190" width="35" height="22" rx="2" fill="#700"/>
+      </svg>
+    </div>
+    <div class="product-info">
+      <div class="tag">Track Jacket / 01</div>
+      <h2>Lightweight Insulated Padding</h2>
+      <p>Built for speed and warmth. Engineered with breathable insulation that adapts to your movement. Move faster, stay warmer — without the bulk that holds you back on the field.</p>
+      <div class="price">$ 180.00</div>
+      <button class="cta">Add to Bag</button>
+    </div>
+  </div>
+</section>
+
+<!-- GLITCH DIVIDER 2 -->
+<div class="glitch-divider">
+  <div class="glitch-bar b1"></div>
+  <div class="glitch-bar b2"></div>
+  <div class="glitch-bar b3"></div>
+  <div class="glitch-text" data-text="ADIDAS">ADIDAS</div>
+</div>
+
+<!-- SECTION B: GRAY / TEAL -->
+<section class="product-section reverse" id="section-b">
+  <div class="watermark-bg"><span>CHILE20</span></div>
+  <div class="container">
+    <div class="product-info">
+      <div class="tag">Track Jacket / 02</div>
+      <h2>Resistant Wet Look Keeps You Moving</h2>
+      <p>A water-resistant finish meets clean tailoring. Quick-access side pockets, sealed seams, and a sculpted silhouette designed for streets, courts, and everything in between.</p>
+      <div class="price">$ 220.00</div>
+      <button class="cta">Add to Bag</button>
+    </div>
+    <div class="product-visual">
+      <div class="glow"></div>
+      <svg class="jacket-svg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg" style="max-width:60%;">
+        <defs>
+          <linearGradient id="grayB" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#aaa"/>
+            <stop offset="100%" stop-color="#2a2a2a"/>
+          </linearGradient>
+        </defs>
+        <path d="M 60 60 L 50 90 L 30 110 L 35 280 L 100 290 L 165 280 L 170 110 L 150 90 L 140 60 Z" fill="url(#grayB)"/>
+        <path d="M 70 60 Q 100 30 130 60 L 130 80 Q 100 70 70 80 Z" fill="#1a1a1a"/>
+        <line x1="100" y1="60" x2="100" y2="290" stroke="#000" stroke-width="1.5"/>
+        <line x1="42" y1="120" x2="46" y2="270" stroke="#000" stroke-width="2" opacity="0.7"/>
+        <line x1="48" y1="120" x2="52" y2="270" stroke="#000" stroke-width="2" opacity="0.7"/>
+        <line x1="54" y1="120" x2="58" y2="270" stroke="#000" stroke-width="2" opacity="0.7"/>
+        <rect x="60" y="190" width="35" height="22" rx="2" fill="#1a1a1a"/>
+        <rect x="105" y="190" width="35" height="22" rx="2" fill="#1a1a1a"/>
+        <path d="M 70 90 L 85 280" stroke="#fff" stroke-width="3" opacity="0.18"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- GLITCH DIVIDER 3 -->
+<div class="glitch-divider">
+  <div class="glitch-bar b1"></div>
+  <div class="glitch-bar b2"></div>
+  <div class="glitch-bar b3"></div>
+  <div class="glitch-text" data-text="CHILE 20">CHILE 20</div>
+</div>
+
+<!-- SECTION C: WHITE (light theme) -->
+<section class="product-section" id="section-c">
+  <div class="container">
+    <div class="product-visual">
+      <svg class="jacket-svg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg" style="max-width:60%;">
+        <defs>
+          <linearGradient id="whiteB" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fff"/>
+            <stop offset="100%" stop-color="#e0dccd"/>
+          </linearGradient>
+        </defs>
+        <path d="M 60 60 L 50 90 L 30 110 L 35 280 L 100 290 L 165 280 L 170 110 L 150 90 L 140 60 Z" fill="url(#whiteB)" stroke="#bbb" stroke-width="0.5"/>
+        <path d="M 70 60 Q 100 30 130 60 L 130 80 Q 100 70 70 80 Z" fill="#e8e3d8"/>
+        <line x1="100" y1="60" x2="100" y2="290" stroke="#888" stroke-width="1"/>
+        <line x1="42" y1="120" x2="46" y2="270" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="48" y1="120" x2="52" y2="270" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="54" y1="120" x2="58" y2="270" stroke="#1a1a1a" stroke-width="2"/>
+        <rect x="60" y="190" width="35" height="22" rx="2" fill="#e0dccd"/>
+        <rect x="105" y="190" width="35" height="22" rx="2" fill="#e0dccd"/>
+      </svg>
+    </div>
+    <div class="product-info">
+      <div class="tag">Track Jacket / 03</div>
+      <h2>The Power to Create</h2>
+      <p>A minimalist classic with a contemporary edge. Clean lines, premium fabric, and a silhouette designed to last. Build your own legacy in the most timeless piece of the collection.</p>
+      <div class="price">$ 200.00</div>
+      <button class="cta">Add to Bag</button>
+    </div>
+  </div>
+</section>
+
+<!-- PERSONALIZATION -->
+<section class="personalization">
+  <div class="watermark-grid">
+    <span>CHILE20</span><span>CHILE20</span><span>CHILE20</span>
+    <span>CHILE20</span><span>CHILE20</span><span>CHILE20</span>
+    <span>CHILE20</span><span>CHILE20</span><span>CHILE20</span>
+  </div>
+  <div class="personalization-inner">
+    <div class="personalization-instr">Click the text and type your name</div>
+    <div class="custom-jacket-wrap">
+      <svg viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="whiteC" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fff"/>
+            <stop offset="100%" stop-color="#e0dccd"/>
+          </linearGradient>
+        </defs>
+        <path d="M 60 60 L 50 90 L 30 110 L 35 280 L 100 290 L 165 280 L 170 110 L 150 90 L 140 60 Z" fill="url(#whiteC)" stroke="#bbb" stroke-width="0.5"/>
+        <path d="M 70 60 Q 100 30 130 60 L 130 80 Q 100 70 70 80 Z" fill="#e8e3d8"/>
+        <line x1="100" y1="60" x2="100" y2="290" stroke="#888" stroke-width="1"/>
+        <line x1="42" y1="120" x2="46" y2="270" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="48" y1="120" x2="52" y2="270" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="54" y1="120" x2="58" y2="270" stroke="#1a1a1a" stroke-width="2"/>
+      </svg>
+      <div class="name-overlay" id="nameOverlay">YOUR NAME</div>
+    </div>
+    <input type="text" id="nameInput" class="name-input" placeholder="YOUR NAME" maxlength="14" />
+    <button class="share-btn" id="shareBtn">Share</button>
+    <div class="share-feedback" id="shareFeedback"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2026 ADIDAS · CHILE 20</div>
+  <div>Terms &amp; Conditions | Privacy | Cookies</div>
+</footer>
+
+<script>
+  /* === LOADER === */
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('hidden');
+    }, 1800);
+  });
+
+  /* === CURSOR GLOW === */
+  const cursorGlow = document.getElementById('cursorGlow');
+  let cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+  let gx = cx, gy = cy;
+  window.addEventListener('mousemove', (e) => {
+    cx = e.clientX; cy = e.clientY;
+  });
+  function animateCursor() {
+    gx += (cx - gx) * 0.18;
+    gy += (cy - gy) * 0.18;
+    cursorGlow.style.transform = `translate(${gx}px, ${gy}px) translate(-50%, -50%)`;
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  /* === LIGHT MODE DETECTION (for sections with light bg) === */
+  const lightSections = [
+    document.getElementById('section-c'),
+    document.querySelector('.personalization'),
+    document.querySelector('footer')
+  ].filter(Boolean);
+
+  function updateLightMode() {
+    const mid = window.innerHeight / 2;
+    let inLight = false;
+    lightSections.forEach(s => {
+      const r = s.getBoundingClientRect();
+      if (r.top < mid && r.bottom > mid) inLight = true;
+    });
+    document.body.classList.toggle('light-mode', inLight);
+  }
+  window.addEventListener('scroll', updateLightMode, { passive: true });
+  updateLightMode();
+
+  /* === HERO PARALLAX === */
+  const heroContent = document.querySelector('.hero-content');
+  const heroTitle = document.querySelector('.hero-title-wrap');
+  const productsRow = document.querySelector('.products-row');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < window.innerHeight) {
+      if (heroTitle) heroTitle.style.transform = `translateY(${y * 0.3}px)`;
+      if (heroTitle) heroTitle.style.opacity = Math.max(0, 1 - y / 500);
+      if (productsRow) productsRow.style.transform = `translateY(${-y * 0.15}px)`;
+    }
+  }, { passive: true });
+
+  /* === PRODUCT CARD CLICK = SMOOTH SCROLL === */
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const target = card.dataset.target;
+      if (target) document.querySelector(target)?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  /* === SCROLL-TRIGGERED ANIMATIONS === */
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const visual = entry.target.querySelector('.product-visual');
+        const info = entry.target.querySelector('.product-info');
+        visual?.classList.add('in');
+        info?.classList.add('in');
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.product-section').forEach(s => sectionObserver.observe(s));
+
+  /* === GLITCH DIVIDER INTENSIFICATION === */
+  const glitchObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        setTimeout(() => entry.target.classList.remove('active'), 800);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.glitch-divider').forEach(d => glitchObserver.observe(d));
+
+  /* === PERSONALIZATION === */
+  const nameInput = document.getElementById('nameInput');
+  const nameOverlay = document.getElementById('nameOverlay');
+  const shareBtn = document.getElementById('shareBtn');
+  const feedback = document.getElementById('shareFeedback');
+
+  nameInput.addEventListener('input', (e) => {
+    const v = e.target.value.trim().toUpperCase();
+    nameOverlay.textContent = v || 'YOUR NAME';
+  });
+
+  shareBtn.addEventListener('click', () => {
+    const v = (nameInput.value || '').trim().toUpperCase() || 'YOUR NAME';
+    feedback.textContent = `Shared: ${v}`;
+    feedback.classList.add('show');
+    setTimeout(() => feedback.classList.remove('show'), 2400);
+  });
+</script>
+</body>
+</html>
