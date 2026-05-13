@@ -96,42 +96,53 @@
     to   { opacity: 0.22; }
   }
 
-  /* === LOADING SCREEN === */
+  /* === LOADING SCREEN (Phase 1: vertical beam grows) === */
   .loader {
     position: fixed; inset: 0;
-    background: var(--black);
+    background: #000;
     z-index: 10000;
-    display: flex; align-items: center; justify-content: center; flex-direction: column;
-    gap: 28px;
-    transition: opacity 0.8s var(--ease), visibility 0s linear 0.8s;
+    overflow: hidden;
+    transition: opacity 0.4s var(--ease), visibility 0s linear 0.4s;
   }
   .loader.hidden { opacity: 0; visibility: hidden; }
-  .loader-title {
-    font-family: var(--font-display);
-    font-size: 72px;
-    letter-spacing: 16px;
-    color: var(--white);
-    padding-left: 16px;
+  .loader-beam {
+    position: absolute;
+    left: 50%; top: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(120,160,255,0.6) 25%,
+      rgba(180,210,255,1) 50%,
+      rgba(120,160,255,0.6) 75%,
+      transparent 100%);
+    box-shadow:
+      0 0 24px rgba(47,87,245,0.95),
+      0 0 60px rgba(47,87,245,0.55),
+      0 0 120px rgba(47,87,245,0.3);
+    transform: translateX(-50%) scaleY(0);
+    transform-origin: top center;
+    animation: loaderBeamGrow 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0s forwards;
   }
-  .loader-bar {
-    width: 320px; height: 2px;
-    background: rgba(255,255,255,0.08);
-    overflow: hidden; position: relative;
+  .loader-beam::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 220px; height: 220px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(47,87,245,0.5) 0%, transparent 65%);
+    filter: blur(30px);
+    opacity: 0;
+    animation: loaderHaloFade 0.6s ease-out 0.55s forwards;
   }
-  .loader-fill {
-    position: absolute; left: 0; top: 0; bottom: 0;
-    width: 0;
-    background: var(--red-bright);
-    box-shadow: 0 0 20px rgba(47,87,245,0.8);
-    animation: loadFill 1.6s var(--ease) forwards;
+  @keyframes loaderBeamGrow {
+    0%   { transform: translateX(-50%) scaleY(0); }
+    100% { transform: translateX(-50%) scaleY(1); }
   }
-  @keyframes loadFill { to { width: 100%; } }
-  .loader-sub {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 4px;
-    color: var(--gray);
-    text-transform: uppercase;
+  @keyframes loaderHaloFade {
+    0%   { opacity: 0; }
+    40%  { opacity: 1; }
+    100% { opacity: 0.3; }
   }
 
   /* === NAV === */
@@ -295,27 +306,92 @@
   .product-card.pos-right:hover { transform: translateX(440px)  translateZ(-80px) rotateY(-22deg) scale(0.93); opacity: 0.92; filter: brightness(0.75); }
   .product-card.pos-center:hover { transform: translateX(0) translateZ(20px) rotateY(0) scale(1.1) translateY(-10px); }
 
-  /* INTRO: products rise from below with blur clearing */
+  /* CINEMATIC INTRO: stacked at center → flash → separate to 3D positions */
   .product-card.intro { opacity: 0 !important; }
-  .product-card.intro.pos-left   { animation: riseInLeft   1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
-  .product-card.intro.pos-center { animation: riseInCenter 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; }
-  .product-card.intro.pos-right  { animation: riseInRight  1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards; }
+  .product-card.intro.pos-left,
+  .product-card.intro.pos-center,
+  .product-card.intro.pos-right {
+    animation-duration: 2.4s;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    animation-delay: 0.8s;
+    animation-fill-mode: forwards;
+  }
+  .product-card.intro.pos-left   { animation-name: cineLeft;   }
+  .product-card.intro.pos-center { animation-name: cineCenter; }
+  .product-card.intro.pos-right  { animation-name: cineRight;  }
 
-  @keyframes riseInLeft {
-    0%   { opacity: 0; transform: translate(-440px, 80px) translateZ(-200px) rotateY(28deg) scale(0.6); filter: blur(20px) brightness(0.3); }
-    60%  { opacity: 0.6; filter: blur(2px) brightness(0.5); }
+  /* All three start stacked & zoomed at center, dark + blurry.
+     ~17% (0.4s in): they become visible (still stacked).
+     ~25% (0.6s in): "flash" peak — brightness up.
+     17→100%: separate to their final 3D positions while sides peak in brightness then darken. */
+  @keyframes cineCenter {
+    0%   { opacity: 0; transform: translateX(0) translateZ(80px) scale(2.2); filter: blur(20px) brightness(0.05); }
+    17%  { opacity: 1; transform: translateX(0) translateZ(70px) scale(2.2); filter: blur(14px) brightness(0.25); }
+    35%  { opacity: 1; transform: translateX(0) translateZ(40px) scale(1.6); filter: blur(6px) brightness(0.9); }
+    65%  { transform: translateX(0) translateZ(15px) scale(1.18); filter: blur(1px) brightness(1.1); }
+    100% { opacity: 1; transform: translateX(0) translateZ(0) scale(1.05); filter: blur(0) brightness(1); }
+  }
+  @keyframes cineLeft {
+    /* casco — held at center stacked, then rotates Y+45 and flies left, with brightness peak */
+    0%   { opacity: 0; transform: translateX(0) translateZ(60px) rotateY(0) scale(1.6); filter: blur(16px) brightness(0.05); }
+    17%  { opacity: 0.95; transform: translateX(0) translateZ(60px) rotateY(0) scale(1.6); filter: blur(12px) brightness(0.25); }
+    28%  { opacity: 1; transform: translateX(-110px) translateZ(40px) rotateY(20deg) scale(1.4); filter: blur(5px) brightness(1.6); }
+    45%  { opacity: 0.95; transform: translateX(-290px) translateZ(-40px) rotateY(45deg) scale(1.15); filter: blur(1px) brightness(1.8); }
+    70%  { opacity: 0.85; transform: translateX(-420px) translateZ(-100px) rotateY(38deg) scale(0.95); filter: blur(0) brightness(1.0); }
     100% { opacity: 0.7; transform: translateX(-440px) translateZ(-120px) rotateY(28deg) scale(0.88); filter: blur(0) brightness(0.55); }
   }
-  @keyframes riseInCenter {
-    0%   { opacity: 0; transform: translateY(120px) translateZ(-200px) scale(0.6); filter: blur(24px) brightness(0.3); }
-    50%  { opacity: 1; filter: blur(2px) brightness(0.9); }
-    100% { opacity: 1; transform: translateZ(0) scale(1.05); filter: blur(0) brightness(1); }
-  }
-  @keyframes riseInRight {
-    0%   { opacity: 0; transform: translate(440px, 80px) translateZ(-200px) rotateY(-28deg) scale(0.6); filter: blur(20px) brightness(0.3); }
-    60%  { opacity: 0.6; filter: blur(2px) brightness(0.5); }
+  @keyframes cineRight {
+    /* planos — mirrors casco to the right */
+    0%   { opacity: 0; transform: translateX(0) translateZ(60px) rotateY(0) scale(1.6); filter: blur(16px) brightness(0.05); }
+    17%  { opacity: 0.95; transform: translateX(0) translateZ(60px) rotateY(0) scale(1.6); filter: blur(12px) brightness(0.25); }
+    28%  { opacity: 1; transform: translateX(110px) translateZ(40px) rotateY(-20deg) scale(1.4); filter: blur(5px) brightness(1.6); }
+    45%  { opacity: 0.95; transform: translateX(290px) translateZ(-40px) rotateY(-45deg) scale(1.15); filter: blur(1px) brightness(1.8); }
+    70%  { opacity: 0.85; transform: translateX(420px) translateZ(-100px) rotateY(-38deg) scale(0.95); filter: blur(0) brightness(1.0); }
     100% { opacity: 0.7; transform: translateX(440px) translateZ(-120px) rotateY(-28deg) scale(0.88); filter: blur(0) brightness(0.55); }
   }
+
+  /* HERO FLASH — fires at ~1.4s (when products separate) */
+  .hero-flash {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 3;
+    background:
+      radial-gradient(circle at center,
+        rgba(255,255,255,0.85) 0%,
+        rgba(140,180,255,0.7) 10%,
+        rgba(47,87,245,0.5) 25%,
+        transparent 55%);
+    filter: blur(20px);
+    mix-blend-mode: screen;
+    animation: heroFlashAnim 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1.4s forwards;
+  }
+  @keyframes heroFlashAnim {
+    0%   { opacity: 0; transform: scale(0.4); }
+    25%  { opacity: 1; transform: scale(1.1); }
+    60%  { opacity: 0.6; transform: scale(1.6); }
+    100% { opacity: 0; transform: scale(2.4); }
+  }
+
+  /* HERO TEXT CASCADE — appears after products settle (2.8-3.8s) */
+  .hero-title-wrap,
+  .hero-sub,
+  .hero-cats,
+  .hero-cta {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: heroFadeUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .hero-title-wrap { animation-delay: 2.8s; }
+  .hero-sub        { animation-delay: 3.0s; }
+  .hero-cats       { animation-delay: 3.2s; }
+  .hero-cta        { animation-delay: 3.4s; }
+  @keyframes heroFadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* Scroll indicator delayed entrance (preserves its floatY infinite anim) */
+  .scroll-indicator { opacity: 0; transition: opacity 0.6s ease-out; }
+  .scroll-indicator.show { opacity: 1; }
 
   .product-card .label {
     position: absolute; bottom: -58px; left: 50%; transform: translateX(-50%);
@@ -1266,11 +1342,9 @@
   <div class="ambient-line"></div>
 </div>
 
-<!-- LOADER -->
+<!-- LOADER (Phase 1: vertical beam grows top→bottom) -->
 <div class="loader" id="loader">
-  <div class="loader-title">ALL-IN</div>
-  <div class="loader-bar"><div class="loader-fill"></div></div>
-  <div class="loader-sub">Loading Collection</div>
+  <div class="loader-beam"></div>
 </div>
 
 <!-- NAV -->
@@ -1289,6 +1363,7 @@
 <!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero-beam" id="heroBeam"></div>
+  <div class="hero-flash" id="heroFlash"></div>
   <div class="hero-content">
     <div class="products-row" id="productsRow">
       <!-- Card 1: casco → SERVICIOS -->
@@ -1808,26 +1883,32 @@
 </a>
 
 <script>
-  /* === LOADER === */
+  /* === CINEMATIC INTRO TIMELINE ===
+     0.00 – 0.55s : loader beam grows top→bottom (CSS auto)
+     0.55 – 0.70s : loader halo + fade out
+     0.80 – 1.20s : products appear stacked at center, dark+blurry
+     1.20 – 1.40s : products visible but still stacked, brightness rising
+     1.40s        : BLUE FLASH explodes in center
+     1.40 – 3.00s : products separate to L/C/R with 45° rotation peak + brightness flash on sides
+     2.80 – 3.80s : title, slogan, categories, CTA, scroll cascade in
+  */
   window.addEventListener('load', () => {
+    // Loader off at 0.7s (after beam grew + halo started)
     setTimeout(() => {
-      document.getElementById('loader').classList.add('hidden');
-      // Kick off product intro animation once loader has faded
-      setTimeout(triggerProductIntro, 200);
-    }, 1800);
-  });
+      document.getElementById('loader')?.classList.add('hidden');
+    }, 700);
 
-  /* === PRODUCT INTRO -> REST === */
-  function triggerProductIntro() {
-    const cards = document.querySelectorAll('.product-card');
-    const offsets = { 'pos-left': 300 + 1400, 'pos-center': 600 + 1400, 'pos-right': 900 + 1400 };
-    cards.forEach(card => {
-      let key = 'pos-center';
-      if (card.classList.contains('pos-left')) key = 'pos-left';
-      else if (card.classList.contains('pos-right')) key = 'pos-right';
-      setTimeout(() => card.classList.remove('intro'), offsets[key]);
-    });
-  }
+    // After the cinematic product animation ends (delay 0.8s + duration 2.4s = 3.2s),
+    // remove .intro so cards reset to their resting positions controlled by pos-* classes.
+    setTimeout(() => {
+      document.querySelectorAll('.product-card').forEach(c => c.classList.remove('intro'));
+    }, 3300);
+
+    // Reveal scroll indicator after the text cascade finishes
+    setTimeout(() => {
+      document.querySelector('.scroll-indicator')?.classList.add('show');
+    }, 3700);
+  });
 
   /* === CURSOR GLOW === */
   const cursorGlow = document.getElementById('cursorGlow');
@@ -1935,13 +2016,7 @@
     }
   });
 
-  /* Initial reveal pulse */
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      hero?.classList.add('beam-intense');
-      setTimeout(() => hero?.classList.remove('beam-intense'), 900);
-    }, 2600);
-  });
+  /* (Initial reveal pulse removed — replaced by cinematic flash) */
 
   /* === SCROLL-TRIGGERED ANIMATIONS === */
   const sectionObserver = new IntersectionObserver((entries) => {
