@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CHILE 20 — Collection</title>
+<title>ALL-IN-CONSTRUCTIONS — Equipos & Servicios</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -246,6 +246,18 @@
     width: 100%; height: 100%;
     transition: transform 0.6s var(--ease);
   }
+  .product-img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    transition: transform 0.6s var(--ease), filter 0.6s var(--ease);
+    filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6));
+  }
+  .product-card:hover .product-img { transform: translateY(-10px); }
+  .product-section .product-img {
+    max-width: 80%; max-height: 100%;
+    filter: drop-shadow(0 40px 60px rgba(0,0,0,0.55));
+  }
+  #section-c .product-img { filter: drop-shadow(0 30px 40px rgba(0,0,0,0.18)); }
 
   .hero-title-wrap {
     border: 3px solid #fff;
@@ -526,17 +538,18 @@
   .custom-jacket-wrap svg { width: 100%; height: 100%; }
   .name-overlay {
     position: absolute;
-    top: 36%; left: 50%;
-    transform: translate(-50%, -50%);
+    top: 70%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-3deg);
     font-family: var(--font-display);
-    font-size: 22px;
-    letter-spacing: 4px;
-    color: #1a1a1a;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: #1a3a8a;
     text-transform: uppercase;
     pointer-events: none;
-    max-width: 60%;
+    max-width: 50%;
     text-align: center;
     line-height: 1;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.4);
   }
   .name-input {
     background: transparent;
@@ -646,7 +659,7 @@
 
 <!-- LOADER -->
 <div class="loader" id="loader">
-  <div class="loader-title">CHILE&nbsp;20</div>
+  <div class="loader-title">ALL-IN</div>
   <div class="loader-bar"><div class="loader-fill"></div></div>
   <div class="loader-sub">Loading Collection</div>
 </div>
@@ -654,9 +667,9 @@
 <!-- NAV -->
 <nav class="main-nav">
   <div class="nav-left">
-    <span>ADIDAS</span>
+    <span>ALL-IN</span>
     <span class="nav-sep"></span>
-    <span>CHILE 20</span>
+    <span>CONSTRUCTIONS</span>
   </div>
   <div class="nav-right">
     <button class="btn-shop" onclick="document.getElementById('section-a').scrollIntoView({behavior:'smooth'})">Shop the Collection</button>
@@ -669,80 +682,28 @@
   <div class="hero-beam"></div>
   <div class="hero-content">
     <div class="products-row">
-      <!-- Side left: red -->
+      <!-- Side left: casco -->
       <div class="product-card side left" data-target="#section-a">
-        <svg class="jacket-svg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="redA" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#ff2a2a"/>
-              <stop offset="100%" stop-color="#a01010"/>
-            </linearGradient>
-          </defs>
-          <!-- Body -->
-          <path d="M 60 60 L 50 90 L 30 110 L 35 280 L 100 290 L 165 280 L 170 110 L 150 90 L 140 60 Z" fill="url(#redA)"/>
-          <!-- Hood/Collar -->
-          <path d="M 70 60 Q 100 30 130 60 L 130 80 Q 100 70 70 80 Z" fill="#700"/>
-          <!-- Zipper -->
-          <line x1="100" y1="60" x2="100" y2="290" stroke="#1a1a1a" stroke-width="1.5"/>
-          <!-- Stripes -->
-          <line x1="42" y1="120" x2="46" y2="270" stroke="#fff" stroke-width="2" opacity="0.85"/>
-          <line x1="48" y1="120" x2="52" y2="270" stroke="#fff" stroke-width="2" opacity="0.85"/>
-          <line x1="54" y1="120" x2="58" y2="270" stroke="#fff" stroke-width="2" opacity="0.85"/>
-          <!-- Pocket -->
-          <rect x="60" y="190" width="35" height="22" rx="2" fill="#700" opacity="0.7"/>
-          <rect x="105" y="190" width="35" height="22" rx="2" fill="#700" opacity="0.7"/>
-        </svg>
-        <span class="label">Padded · Red</span>
+        <img class="product-img" src="assets/casco.png" alt="Casco ALL-IN-CONSTRUCTIONS" />
+        <span class="label">Seguridad · Casco</span>
       </div>
 
-      <!-- Center: gray -->
+      <!-- Center: chaleco -->
       <div class="product-card center" data-target="#section-b">
-        <svg class="jacket-svg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="grayA" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#999"/>
-              <stop offset="100%" stop-color="#3a3a3a"/>
-            </linearGradient>
-          </defs>
-          <path d="M 60 60 L 50 90 L 30 110 L 35 280 L 100 290 L 165 280 L 170 110 L 150 90 L 140 60 Z" fill="url(#grayA)"/>
-          <path d="M 70 60 Q 100 30 130 60 L 130 80 Q 100 70 70 80 Z" fill="#222"/>
-          <line x1="100" y1="60" x2="100" y2="290" stroke="#111" stroke-width="1.5"/>
-          <line x1="42" y1="120" x2="46" y2="270" stroke="#000" stroke-width="2" opacity="0.6"/>
-          <line x1="48" y1="120" x2="52" y2="270" stroke="#000" stroke-width="2" opacity="0.6"/>
-          <line x1="54" y1="120" x2="58" y2="270" stroke="#000" stroke-width="2" opacity="0.6"/>
-          <rect x="60" y="190" width="35" height="22" rx="2" fill="#222" opacity="0.7"/>
-          <rect x="105" y="190" width="35" height="22" rx="2" fill="#222" opacity="0.7"/>
-          <!-- wet sheen -->
-          <path d="M 60 80 L 90 280" stroke="#fff" stroke-width="2" opacity="0.15"/>
-        </svg>
-        <span class="label">Wet Look · Gray</span>
+        <img class="product-img" src="assets/chaleco.png" alt="Chaleco ALL-IN-CONSTRUCTIONS" />
+        <span class="label">Uniforme · Chaleco</span>
       </div>
 
-      <!-- Side right: white -->
+      <!-- Side right: planos -->
       <div class="product-card side right" data-target="#section-c">
-        <svg class="jacket-svg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="whiteA" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#fff"/>
-              <stop offset="100%" stop-color="#d8d4cd"/>
-            </linearGradient>
-          </defs>
-          <path d="M 60 60 L 50 90 L 30 110 L 35 280 L 100 290 L 165 280 L 170 110 L 150 90 L 140 60 Z" fill="url(#whiteA)" stroke="#bbb" stroke-width="0.5"/>
-          <path d="M 70 60 Q 100 30 130 60 L 130 80 Q 100 70 70 80 Z" fill="#e8e3d8"/>
-          <line x1="100" y1="60" x2="100" y2="290" stroke="#888" stroke-width="1"/>
-          <line x1="42" y1="120" x2="46" y2="270" stroke="#1a1a1a" stroke-width="2" opacity="0.85"/>
-          <line x1="48" y1="120" x2="52" y2="270" stroke="#1a1a1a" stroke-width="2" opacity="0.85"/>
-          <line x1="54" y1="120" x2="58" y2="270" stroke="#1a1a1a" stroke-width="2" opacity="0.85"/>
-          <rect x="60" y="190" width="35" height="22" rx="2" fill="#e0dccf" opacity="0.9"/>
-          <rect x="105" y="190" width="35" height="22" rx="2" fill="#e0dccf" opacity="0.9"/>
-        </svg>
-        <span class="label">Classic · White</span>
+        <img class="product-img" src="assets/planos.png" alt="Planos arquitectónicos" />
+        <span class="label">Diseño · Planos</span>
       </div>
     </div>
 
     <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:18px;">
-      <div class="hero-title-wrap"><div class="hero-title">CHILE 20</div></div>
-      <div class="hero-sub">Select a Product to Begin</div>
+      <div class="hero-title-wrap"><div class="hero-title">ALL-IN CONSTRUCTIONS</div></div>
+      <div class="hero-sub">Selecciona un producto para comenzar</div>
     </div>
   </div>
   <div class="scroll-indicator">
@@ -756,37 +717,22 @@
   <div class="glitch-bar b1"></div>
   <div class="glitch-bar b2"></div>
   <div class="glitch-bar b3"></div>
-  <div class="glitch-text" data-text="CHILE 20">CHILE 20</div>
+  <div class="glitch-text" data-text="ALL-IN">ALL-IN</div>
 </div>
 
-<!-- SECTION A: RED -->
+<!-- SECTION A: CASCO -->
 <section class="product-section" id="section-a">
   <div class="container">
     <div class="product-visual">
       <div class="glow"></div>
-      <svg class="jacket-svg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg" style="max-width:60%;">
-        <defs>
-          <linearGradient id="redB" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#ff2a2a"/>
-            <stop offset="100%" stop-color="#a01010"/>
-          </linearGradient>
-        </defs>
-        <path d="M 60 60 L 50 90 L 30 110 L 35 280 L 100 290 L 165 280 L 170 110 L 150 90 L 140 60 Z" fill="url(#redB)"/>
-        <path d="M 70 60 Q 100 30 130 60 L 130 80 Q 100 70 70 80 Z" fill="#700"/>
-        <line x1="100" y1="60" x2="100" y2="290" stroke="#1a1a1a" stroke-width="1.5"/>
-        <line x1="42" y1="120" x2="46" y2="270" stroke="#fff" stroke-width="2"/>
-        <line x1="48" y1="120" x2="52" y2="270" stroke="#fff" stroke-width="2"/>
-        <line x1="54" y1="120" x2="58" y2="270" stroke="#fff" stroke-width="2"/>
-        <rect x="60" y="190" width="35" height="22" rx="2" fill="#700"/>
-        <rect x="105" y="190" width="35" height="22" rx="2" fill="#700"/>
-      </svg>
+      <img class="product-img" src="assets/casco.png" alt="Casco de seguridad ALL-IN-CONSTRUCTIONS" />
     </div>
     <div class="product-info">
-      <div class="tag">Track Jacket / 01</div>
-      <h2>Lightweight Insulated Padding</h2>
-      <p>Built for speed and warmth. Engineered with breathable insulation that adapts to your movement. Move faster, stay warmer — without the bulk that holds you back on the field.</p>
-      <div class="price">$ 180.00</div>
-      <button class="cta">Add to Bag</button>
+      <div class="tag">Equipo / 01 — Seguridad</div>
+      <h2>Casco Certificado para Obra</h2>
+      <p>Protección de primer nivel para nuestro equipo en cada faena. Cumple normativas internacionales de seguridad industrial, con suspensión interna ajustable, resistencia a impactos y branding oficial ALL-IN-CONSTRUCTIONS. Construir seguro es construir mejor.</p>
+      <div class="price">ANSI Z89.1</div>
+      <button class="cta">Conocer Más</button>
     </div>
   </div>
 </section>
@@ -796,39 +742,23 @@
   <div class="glitch-bar b1"></div>
   <div class="glitch-bar b2"></div>
   <div class="glitch-bar b3"></div>
-  <div class="glitch-text" data-text="ADIDAS">ADIDAS</div>
+  <div class="glitch-text" data-text="CONSTRUCTIONS">CONSTRUCTIONS</div>
 </div>
 
-<!-- SECTION B: GRAY / TEAL -->
+<!-- SECTION B: CHALECO -->
 <section class="product-section reverse" id="section-b">
-  <div class="watermark-bg"><span>CHILE20</span></div>
+  <div class="watermark-bg"><span>ALL-IN</span></div>
   <div class="container">
     <div class="product-info">
-      <div class="tag">Track Jacket / 02</div>
-      <h2>Resistant Wet Look Keeps You Moving</h2>
-      <p>A water-resistant finish meets clean tailoring. Quick-access side pockets, sealed seams, and a sculpted silhouette designed for streets, courts, and everything in between.</p>
-      <div class="price">$ 220.00</div>
-      <button class="cta">Add to Bag</button>
+      <div class="tag">Equipo / 02 — Uniforme</div>
+      <h2>Chaleco Reflectivo Industrial</h2>
+      <p>Diseñado para máxima visibilidad y comodidad en campo. Bandas reflectivas de alta intensidad, bolsillos funcionales con cierre, tela resistente al desgaste y branding bordado. La identidad de nuestro equipo en cada obra que ejecutamos.</p>
+      <div class="price">EN ISO 20471</div>
+      <button class="cta">Conocer Más</button>
     </div>
     <div class="product-visual">
       <div class="glow"></div>
-      <svg class="jacket-svg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg" style="max-width:60%;">
-        <defs>
-          <linearGradient id="grayB" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#aaa"/>
-            <stop offset="100%" stop-color="#2a2a2a"/>
-          </linearGradient>
-        </defs>
-        <path d="M 60 60 L 50 90 L 30 110 L 35 280 L 100 290 L 165 280 L 170 110 L 150 90 L 140 60 Z" fill="url(#grayB)"/>
-        <path d="M 70 60 Q 100 30 130 60 L 130 80 Q 100 70 70 80 Z" fill="#1a1a1a"/>
-        <line x1="100" y1="60" x2="100" y2="290" stroke="#000" stroke-width="1.5"/>
-        <line x1="42" y1="120" x2="46" y2="270" stroke="#000" stroke-width="2" opacity="0.7"/>
-        <line x1="48" y1="120" x2="52" y2="270" stroke="#000" stroke-width="2" opacity="0.7"/>
-        <line x1="54" y1="120" x2="58" y2="270" stroke="#000" stroke-width="2" opacity="0.7"/>
-        <rect x="60" y="190" width="35" height="22" rx="2" fill="#1a1a1a"/>
-        <rect x="105" y="190" width="35" height="22" rx="2" fill="#1a1a1a"/>
-        <path d="M 70 90 L 85 280" stroke="#fff" stroke-width="3" opacity="0.18"/>
-      </svg>
+      <img class="product-img" src="assets/chaleco.png" alt="Chaleco reflectivo ALL-IN-CONSTRUCTIONS" />
     </div>
   </div>
 </section>
@@ -838,36 +768,21 @@
   <div class="glitch-bar b1"></div>
   <div class="glitch-bar b2"></div>
   <div class="glitch-bar b3"></div>
-  <div class="glitch-text" data-text="CHILE 20">CHILE 20</div>
+  <div class="glitch-text" data-text="ALL-IN">ALL-IN</div>
 </div>
 
-<!-- SECTION C: WHITE (light theme) -->
+<!-- SECTION C: PLANOS (light theme) -->
 <section class="product-section" id="section-c">
   <div class="container">
     <div class="product-visual">
-      <svg class="jacket-svg" viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg" style="max-width:60%;">
-        <defs>
-          <linearGradient id="whiteB" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#fff"/>
-            <stop offset="100%" stop-color="#e0dccd"/>
-          </linearGradient>
-        </defs>
-        <path d="M 60 60 L 50 90 L 30 110 L 35 280 L 100 290 L 165 280 L 170 110 L 150 90 L 140 60 Z" fill="url(#whiteB)" stroke="#bbb" stroke-width="0.5"/>
-        <path d="M 70 60 Q 100 30 130 60 L 130 80 Q 100 70 70 80 Z" fill="#e8e3d8"/>
-        <line x1="100" y1="60" x2="100" y2="290" stroke="#888" stroke-width="1"/>
-        <line x1="42" y1="120" x2="46" y2="270" stroke="#1a1a1a" stroke-width="2"/>
-        <line x1="48" y1="120" x2="52" y2="270" stroke="#1a1a1a" stroke-width="2"/>
-        <line x1="54" y1="120" x2="58" y2="270" stroke="#1a1a1a" stroke-width="2"/>
-        <rect x="60" y="190" width="35" height="22" rx="2" fill="#e0dccd"/>
-        <rect x="105" y="190" width="35" height="22" rx="2" fill="#e0dccd"/>
-      </svg>
+      <img class="product-img" src="assets/planos.png" alt="Planos arquitectónicos ALL-IN-CONSTRUCTIONS" />
     </div>
     <div class="product-info">
-      <div class="tag">Track Jacket / 03</div>
-      <h2>The Power to Create</h2>
-      <p>A minimalist classic with a contemporary edge. Clean lines, premium fabric, and a silhouette designed to last. Build your own legacy in the most timeless piece of the collection.</p>
-      <div class="price">$ 200.00</div>
-      <button class="cta">Add to Bag</button>
+      <div class="tag">Servicio / 03 — Diseño</div>
+      <h2>El Poder de Crear</h2>
+      <p>Cada obra empieza con un plano. Nuestro equipo de arquitectos e ingenieros traduce tu visión en planos técnicos detallados, modelados 3D y presupuestos transparentes. Del concepto inicial a la entrega final, somos tu socio integral en construcción.</p>
+      <div class="price">Diseño + Planificación</div>
+      <button class="cta">Solicitar Cotización</button>
     </div>
   </div>
 </section>
@@ -875,39 +790,26 @@
 <!-- PERSONALIZATION -->
 <section class="personalization">
   <div class="watermark-grid">
-    <span>CHILE20</span><span>CHILE20</span><span>CHILE20</span>
-    <span>CHILE20</span><span>CHILE20</span><span>CHILE20</span>
-    <span>CHILE20</span><span>CHILE20</span><span>CHILE20</span>
+    <span>ALL-IN</span><span>ALL-IN</span><span>ALL-IN</span>
+    <span>ALL-IN</span><span>ALL-IN</span><span>ALL-IN</span>
+    <span>ALL-IN</span><span>ALL-IN</span><span>ALL-IN</span>
   </div>
   <div class="personalization-inner">
-    <div class="personalization-instr">Click the text and type your name</div>
+    <div class="personalization-instr">Personaliza tu equipo · escribe tu nombre</div>
     <div class="custom-jacket-wrap">
-      <svg viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="whiteC" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#fff"/>
-            <stop offset="100%" stop-color="#e0dccd"/>
-          </linearGradient>
-        </defs>
-        <path d="M 60 60 L 50 90 L 30 110 L 35 280 L 100 290 L 165 280 L 170 110 L 150 90 L 140 60 Z" fill="url(#whiteC)" stroke="#bbb" stroke-width="0.5"/>
-        <path d="M 70 60 Q 100 30 130 60 L 130 80 Q 100 70 70 80 Z" fill="#e8e3d8"/>
-        <line x1="100" y1="60" x2="100" y2="290" stroke="#888" stroke-width="1"/>
-        <line x1="42" y1="120" x2="46" y2="270" stroke="#1a1a1a" stroke-width="2"/>
-        <line x1="48" y1="120" x2="52" y2="270" stroke="#1a1a1a" stroke-width="2"/>
-        <line x1="54" y1="120" x2="58" y2="270" stroke="#1a1a1a" stroke-width="2"/>
-      </svg>
-      <div class="name-overlay" id="nameOverlay">YOUR NAME</div>
+      <img src="assets/casco.png" alt="Casco personalizable" style="width:100%;height:100%;object-fit:contain;" />
+      <div class="name-overlay" id="nameOverlay">TU NOMBRE</div>
     </div>
-    <input type="text" id="nameInput" class="name-input" placeholder="YOUR NAME" maxlength="14" />
-    <button class="share-btn" id="shareBtn">Share</button>
+    <input type="text" id="nameInput" class="name-input" placeholder="TU NOMBRE" maxlength="14" />
+    <button class="share-btn" id="shareBtn">Compartir</button>
     <div class="share-feedback" id="shareFeedback"></div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div>© 2026 ADIDAS · CHILE 20</div>
-  <div>Terms &amp; Conditions | Privacy | Cookies</div>
+  <div>© 2026 ALL-IN-CONSTRUCTIONS S.A.S. · Ecuador</div>
+  <div>Términos &amp; Condiciones | Privacidad | Cookies</div>
 </footer>
 
 <script>
@@ -1005,12 +907,12 @@
 
   nameInput.addEventListener('input', (e) => {
     const v = e.target.value.trim().toUpperCase();
-    nameOverlay.textContent = v || 'YOUR NAME';
+    nameOverlay.textContent = v || 'TU NOMBRE';
   });
 
   shareBtn.addEventListener('click', () => {
-    const v = (nameInput.value || '').trim().toUpperCase() || 'YOUR NAME';
-    feedback.textContent = `Shared: ${v}`;
+    const v = (nameInput.value || '').trim().toUpperCase() || 'TU NOMBRE';
+    feedback.textContent = `Compartido: ${v}`;
     feedback.classList.add('show');
     setTimeout(() => feedback.classList.remove('show'), 2400);
   });
