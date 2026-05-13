@@ -203,8 +203,38 @@
     z-index: 0;
   }
 
-  /* Hide artificial beam - image already has natural blue/white beam */
-  .hero-beam { display: none; }
+  /* Intensifier glow that activates on center-hover (video effect) */
+  .hero-beam {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(47,87,245,0.45) 30%,
+      rgba(120,160,255,0.7) 50%,
+      rgba(47,87,245,0.45) 70%,
+      transparent 100%);
+    filter: blur(20px);
+    transition: opacity 0.6s var(--ease), width 0.6s var(--ease);
+    z-index: 0;
+    mix-blend-mode: screen;
+  }
+  .hero-beam::before {
+    content: '';
+    position: absolute;
+    inset: -200px;
+    background: radial-gradient(ellipse 30% 60% at center, rgba(47,87,245,0.35) 0%, transparent 70%);
+    filter: blur(40px);
+  }
+  .hero.beam-intense .hero-beam { opacity: 1; width: 160px; }
+  .hero.beam-intense { background-color: #060912; }
+  .hero.beam-intense::before {
+    background: radial-gradient(ellipse at center, rgba(47,87,245,0.25) 0%, transparent 50%, rgba(0,0,0,0.8) 100%);
+  }
 
   .hero-content {
     position: relative;
@@ -238,29 +268,26 @@
   .product-card.rest.center { transform: scale(1.05); z-index: 5; transition: all 0.6s var(--ease); }
   .product-card.rest:hover { transform: scale(1.1) translateY(-12px); opacity: 1; filter: brightness(1); z-index: 6; }
 
-  /* INTRO: products fly in from above the viewport, spinning */
+  /* INTRO: products rise from below with subtle scale + blur clearing */
   .product-card.intro { opacity: 0; }
-  .product-card.intro.left   { animation: flyInLeft   1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards; }
-  .product-card.intro.center { animation: flyInCenter 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards; }
-  .product-card.intro.right  { animation: flyInRight  1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.0s forwards; }
+  .product-card.intro.left   { animation: riseInLeft   1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
+  .product-card.intro.center { animation: riseInCenter 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; }
+  .product-card.intro.right  { animation: riseInRight  1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards; }
 
-  @keyframes flyInLeft {
-    0%   { opacity: 0; transform: translate(-180vw, -40vh) rotate(-540deg) scale(0.4); filter: blur(8px) brightness(0.6); }
-    60%  { opacity: 1; filter: blur(0) brightness(0.6); }
-    85%  { transform: translate(0, 0) rotate(15deg) scale(0.95); }
-    100% { opacity: 0.7; transform: translateX(40px) rotate(0) scale(0.88); filter: blur(0) brightness(0.6); }
+  @keyframes riseInLeft {
+    0%   { opacity: 0; transform: translateY(80px) scale(0.7); filter: blur(20px) brightness(0.3); }
+    60%  { opacity: 0.5; filter: blur(2px) brightness(0.5); }
+    100% { opacity: 0.7; transform: translateX(40px) scale(0.88); filter: blur(0) brightness(0.6); }
   }
-  @keyframes flyInCenter {
-    0%   { opacity: 0; transform: translateY(-50vh) rotate(-720deg) scale(0.3); filter: blur(8px); }
-    50%  { opacity: 1; filter: blur(0); }
-    85%  { transform: translateY(0) rotate(-20deg) scale(1.12); }
-    100% { opacity: 1; transform: rotate(0) scale(1.05); filter: blur(0); }
+  @keyframes riseInCenter {
+    0%   { opacity: 0; transform: translateY(120px) scale(0.6); filter: blur(24px) brightness(0.3); }
+    50%  { opacity: 1; filter: blur(2px) brightness(0.9); }
+    100% { opacity: 1; transform: scale(1.05); filter: blur(0) brightness(1); }
   }
-  @keyframes flyInRight {
-    0%   { opacity: 0; transform: translate(180vw, -40vh) rotate(540deg) scale(0.4); filter: blur(8px) brightness(0.6); }
-    60%  { opacity: 1; filter: blur(0) brightness(0.6); }
-    85%  { transform: translate(0, 0) rotate(-15deg) scale(0.95); }
-    100% { opacity: 0.7; transform: translateX(-40px) rotate(0) scale(0.88); filter: blur(0) brightness(0.6); }
+  @keyframes riseInRight {
+    0%   { opacity: 0; transform: translateY(80px) scale(0.7); filter: blur(20px) brightness(0.3); }
+    60%  { opacity: 0.5; filter: blur(2px) brightness(0.5); }
+    100% { opacity: 0.7; transform: translateX(-40px) scale(0.88); filter: blur(0) brightness(0.6); }
   }
 
   .product-card .label {
@@ -376,7 +403,25 @@
     margin-bottom: 24px; max-width: 480px;
     opacity: 0; transform: translateY(30px);
     transition: opacity 0.9s var(--ease) 0.2s, transform 0.9s var(--ease) 0.2s;
+    position: relative;
   }
+  /* Glitch typewriter effect on h2 when in view (like frames 35-38 in video) */
+  .product-info.in h2 {
+    animation: textGlitchIn 1.2s steps(1) 0.3s both;
+  }
+  @keyframes textGlitchIn {
+    0%   { text-shadow: none; }
+    10%  { text-shadow: -3px 0 var(--red-bright), 3px 0 #20e0e0; }
+    20%  { text-shadow: 2px 0 var(--red-bright), -2px 0 #20e0e0; }
+    30%  { text-shadow: -4px 0 var(--red-bright), 4px 0 #20e0e0; }
+    40%  { text-shadow: 1px 0 var(--red-bright), -1px 0 #20e0e0; }
+    50%  { text-shadow: -2px 0 var(--red-bright), 2px 0 #20e0e0; }
+    60%  { text-shadow: 3px 0 var(--red-bright), -3px 0 #20e0e0; }
+    70%, 100% { text-shadow: none; }
+  }
+  /* "Camera zoom" cinematic entry on visuals */
+  .product-section .product-img { transform: scale(0.92); transition: transform 1.4s var(--ease); }
+  .product-section.in-view .product-img { transform: scale(1); }
   .product-info p {
     font-family: var(--font-mono); font-size: 13px;
     line-height: 1.85; color: var(--gray); max-width: 420px;
@@ -457,6 +502,22 @@
     overflow: hidden;
     display: flex; align-items: center; justify-content: center;
   }
+  /* Light portal vertical beam (frame 30 of reference video) */
+  .glitch-divider::after {
+    content: '';
+    position: absolute;
+    left: 50%; top: 0; bottom: 0;
+    width: 2px;
+    transform: translateX(-50%) scaleY(0);
+    background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.95) 30%, rgba(120,160,255,0.95) 50%, rgba(255,255,255,0.95) 70%, transparent 100%);
+    box-shadow:
+      0 0 30px rgba(120,160,255,0.6),
+      0 0 60px rgba(47,87,245,0.4),
+      0 0 120px rgba(47,87,245,0.25);
+    transition: transform 1s var(--ease);
+    z-index: 4;
+  }
+  .glitch-divider.active::after { transform: translateX(-50%) scaleY(1); }
   .glitch-text {
     font-family: var(--font-display);
     font-size: 120px;
@@ -710,7 +771,7 @@
 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <div class="hero-beam"></div>
+  <div class="hero-beam" id="heroBeam"></div>
   <div class="hero-content">
     <div class="products-row" id="productsRow">
       <!-- Side left: casco -->
@@ -926,6 +987,21 @@
     });
   });
 
+  /* === HOVER ON CENTER PRODUCT INTENSIFIES THE BEAM (video frame 15) === */
+  const hero = document.getElementById('hero');
+  const centerCard = document.querySelector('.product-card.center');
+  if (centerCard && hero) {
+    centerCard.addEventListener('mouseenter', () => hero.classList.add('beam-intense'));
+    centerCard.addEventListener('mouseleave', () => hero.classList.remove('beam-intense'));
+  }
+  /* Also briefly intensify when intro finishes for a "reveal" moment */
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      hero?.classList.add('beam-intense');
+      setTimeout(() => hero?.classList.remove('beam-intense'), 900);
+    }, 3000);
+  });
+
   /* === SCROLL-TRIGGERED ANIMATIONS === */
   const sectionObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -934,6 +1010,7 @@
         const info = entry.target.querySelector('.product-info');
         visual?.classList.add('in');
         info?.classList.add('in');
+        entry.target.classList.add('in-view'); // triggers camera-zoom on image
       }
     });
   }, { threshold: 0.3 });
